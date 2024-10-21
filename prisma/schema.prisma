@@ -112,6 +112,7 @@ model Order {
   id                  Int             @id @default(autoincrement())
   type                String
   position            String
+  note                String    
   price               Float
   amount              Float
   worth               Float
