@@ -1,10 +1,11 @@
 import { runStrategyPortal } from "../strategies/run-strategy";
 import { interactCLI, handlePortalReturn } from "../../helpers/portals";
 import { createResultsCharts } from "../../helpers/charts";
+import { removeIndexFromTable, round } from "../../helpers/parse";
 import { DataReturn, GetStrategyResult, LooseObject } from "../../infra/interfaces";
 import { headerStrategyResults } from "../../infra/headers";
 import { colorHeader } from "../../infra/colors";
-import { parseRunResultsStats } from "@backtestjs/core";
+import { saveResults, deleteResults, findResultNames, parseRunResultsStats } from "@backtestjs/core";
 
 export async function resultsPortal(results: GetStrategyResult, newResult: boolean) {
   if (!newResult) console.clear();
@@ -86,35 +87,33 @@ export async function resultsPortal(results: GetStrategyResult, newResult: boole
 
       console.table(allOrdersCopy);
     } else if (choiceCLI.includes("💾")) {
-      let allResultsReturn = await getAllStrategyResultNames();
-      if (allResultsReturn.error) return allResultsReturn;
-      let allResults = allResultsReturn.data;
+      const allResults = await findResultNames();
 
       const resultsName = await interactCLI({
         type: "input",
         message: "Type A Name For The Results:",
       });
-      if (resultsName !== undefined) results.name = resultsName;
 
+      if (resultsName !== undefined) {
+        results.name = resultsName;
+      }
+
+      let override = false;
       if (allResults.includes(results.name)) {
         const saveResultsChoice = await interactCLI({
           type: "autocomplete",
           message: `Results ${results.name} has saved results already, would you like to rewrite them`,
           choices: ["Yes", "No"],
         });
-        if (saveResultsChoice === "No") {
-          return { error: false, data: "Cancelled saving results" };
-        } else {
-          const deleteResults = await deleteStrategyResult(results.name);
-          if (deleteResults.error) return deleteResults;
-        }
+
+        override = saveResultsChoice === "Yes";
       }
 
-      const saveResultsRes = await insertResult(results);
-      if (saveResultsRes.error) return saveResultsRes;
+      await saveResults(results.name, results, override);
       return { error: false, data: `Successfully saved trading results for ${results.name}` };
     } else if (choiceCLI.includes("🔥")) {
-      return await deleteStrategyResult(results.name);
+      await deleteResults(results.name);
+      return { error: false, data: `Successfully deleted trading results for ${results.name}` };
     } else if (choiceCLI.includes("🏃")) {
       portalReturn = await runStrategyPortal(true);
       back = true;

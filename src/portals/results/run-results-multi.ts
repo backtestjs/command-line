@@ -1,10 +1,11 @@
 import { interactCLI, handlePortalReturn } from "../../helpers/portals";
 import { runStrategyPortal } from "../strategies/run-strategy";
 import { createResultsChartsMulti } from "../../helpers/charts";
+import { removeIndexFromTable, round } from "../../helpers/parse";
 import { DataReturn, StrategyResultMulti } from "../../infra/interfaces";
 import { headerStrategyResults } from "../../infra/headers";
 import { colorHeader } from "../../infra/colors";
-import { parseRunResultsStats } from "@backtestjs/core";
+import { saveMultiResults, deleteMultiResults, findMultiResultNames, parseRunResultsStats } from "@backtestjs/core";
 
 export async function resultsPortalMulti(results: StrategyResultMulti, newResult: boolean) {
   if (!newResult) console.clear();
@@ -72,35 +73,32 @@ export async function resultsPortalMulti(results: StrategyResultMulti, newResult
       console.log(colorHeader("|               *** ALL PERMUTATION RESULTS ***             |"));
       removeIndexFromTable(multiResults);
     } else if (choiceCLI.includes("💾")) {
-      let allResultsReturn = await getAllMultiResults();
-      if (allResultsReturn.error) return allResultsReturn;
-      let allResults = allResultsReturn.data;
+      const allResults = await findMultiResultNames();
 
       const resultsName = await interactCLI({
         type: "input",
         message: "Type A Name For The Trading Results:",
       });
-      if (resultsName !== undefined) results.name = resultsName;
+      if (resultsName !== undefined) {
+        results.name = resultsName;
+      }
 
+      let override = false;
       if (allResults.includes(results.name)) {
         const saveResultsChoice = await interactCLI({
           type: "autocomplete",
           message: `Results ${results.name} has saved results already, would you like to rewrite them`,
           choices: ["Yes", "No"],
         });
-        if (saveResultsChoice === "No") {
-          return { error: false, data: "Cancelled saving results" };
-        } else {
-          const deleteResults = await deleteMultiResult(results.name);
-          if (deleteResults.error) return deleteResults;
-        }
+
+        override = saveResultsChoice === "Yes";
       }
 
-      const saveResultsRes = await insertMultiResult(results);
-      if (saveResultsRes.error) return saveResultsRes;
+      await saveMultiResults(results.name, results, override);
       return { error: false, data: `Successfully saved results for ${results.name}` };
     } else if (choiceCLI.includes("🔥")) {
-      return await deleteMultiResult(results.name);
+      await deleteMultiResults(results.name);
+      return { error: false, data: `Successfully deleted results for ${results.name}` };
     } else if (choiceCLI.includes("🏃")) {
       portalReturn = await runStrategyPortal(true);
       back = true;
