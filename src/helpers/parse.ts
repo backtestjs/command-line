@@ -4,28 +4,20 @@ const { Console } = require("console");
 const { Transform } = require("stream");
 
 export function round(numberToConvert: number) {
-  // If the number is greater than or equal to 1, round to two decimal places
   if (Math.abs(numberToConvert) >= 1) {
     return +numberToConvert.toFixed(2);
-  }
-
-  // If the number is less than 1
-  else {
+  } else {
     let strNum = numberToConvert.toFixed(20);
     let i = 0;
 
-    // Find the first non-zero digit
     while (strNum[i + 2] === "0") {
       i++;
     }
 
-    // Extract and round the number up to three places after the first non-zero digit
     let rounded = parseFloat(strNum.slice(0, i + 2 + 3 + 1));
 
-    // Convert the rounded number back to a string and truncate to the required number of decimal places
     const strRounded = rounded.toString();
 
-    // Return the rounded number
     return +strRounded.slice(0, i + 2 + 3);
   }
 }
@@ -49,4 +41,45 @@ export function removeIndexFromTable(data: LooseObject[]) {
     result += `${r}\n`;
   }
   console.log(result);
+}
+
+export function parseMultiResults(
+  data: LooseObject[],
+  numberOfCandles: number,
+  startingAmount: number,
+  multiSymbol: boolean
+) {
+  data.sort((a: LooseObject, b: LooseObject) => b.endAmount - a.endAmount);
+
+  data = data.map((item) => {
+    const {
+      maxDrawdownAmount,
+      maxDrawdownPercent,
+      numberOfCandlesInvested,
+      endAmount,
+      assetAmounts,
+      sharpeRatio,
+      symbol,
+      interval,
+      ...rest
+    } = item;
+    const maxDrawdown = `${maxDrawdownPercent}% : ${maxDrawdownAmount}`;
+
+    const endAmountUpdated = `${((item.endAmount / startingAmount) * 100).toFixed(2)}% : ${item.endAmount}`;
+    const numberOfCandlesInvestedUpdated = `${((item.numberOfCandlesInvested / numberOfCandles) * 100).toFixed(2)}% : ${
+      item.numberOfCandlesInvested
+    } out of ${numberOfCandles}`;
+    const sharpeRatioUpdated = sharpeRatio === 10000 ? "Need > 1 Year" : sharpeRatio;
+    const returnData = {
+      ...rest,
+      endAmountUpdated,
+      sharpeRatioUpdated,
+      maxDrawdown,
+      numberOfCandlesInvested: numberOfCandlesInvestedUpdated,
+    };
+
+    return multiSymbol ? { symbol, interval, ...returnData } : returnData;
+  });
+
+  return data;
 }

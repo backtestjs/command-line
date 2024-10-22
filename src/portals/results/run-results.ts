@@ -35,11 +35,11 @@ export async function resultsPortal(results: GetStrategyResult, newResult: boole
     });
 
     if (choiceCLI.includes("🎉")) {
-      const runResultsStats = parseRunResultsStats(results);
+      const runResultsStats = await parseRunResultsStats(results);
 
       await createResultsCharts(results.allWorths, results.candles, results.allOrders, runResultsStats);
     } else if (choiceCLI.includes("🚀")) {
-      const runResultsStats = parseRunResultsStats(results);
+      const runResultsStats = await parseRunResultsStats(results);
 
       console.log("");
       console.log(colorHeader("|            *** GENERAL ***           |"));

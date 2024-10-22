@@ -29,8 +29,8 @@ export async function mainHistoricalDataPortal() {
       choices,
     });
 
-    if (choiceCLI.includes("🔍")) portalReturn = await viewHistoricalDataPortal();
-    else if (choiceCLI.includes("")) portalReturn = await downloadHistoricalDataPortal();
+    /**/ if (choiceCLI.includes("🔍")) portalReturn = await viewHistoricalDataPortal();
+    else if (choiceCLI.includes("⬇️")) portalReturn = await downloadHistoricalDataPortal();
     else if (choiceCLI.includes("📥")) portalReturn = await importCSVPortal();
     else if (choiceCLI.includes("👈")) {
       back = true;

@@ -14,7 +14,7 @@ export async function importCSV(importCSVParams: ImportCSV) {
   });
 
   if (continueToImport === "No") {
-    return { error: false, data: "Successfully cancelled importing data from CSV" };
+    return { error: false, data: "Successfully aborted importing data from CSV" };
   }
 
   const { base, quote, interval, path } = importCSVParams;

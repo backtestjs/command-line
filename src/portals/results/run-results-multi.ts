@@ -1,7 +1,7 @@
 import { interactCLI, handlePortalReturn } from "../../helpers/portals";
 import { runStrategyPortal } from "../strategies/run-strategy";
 import { createResultsChartsMulti } from "../../helpers/charts";
-import { removeIndexFromTable, round } from "../../helpers/parse";
+import { removeIndexFromTable, parseMultiResults } from "../../helpers/parse";
 import { DataReturn, StrategyResultMulti } from "../../infra/interfaces";
 import { headerStrategyResults } from "../../infra/headers";
 import { colorHeader } from "../../infra/colors";

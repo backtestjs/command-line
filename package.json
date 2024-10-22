@@ -13,8 +13,8 @@
     "multi symbol"
   ],
   "scripts": {
-    "start": "npx ts-node src/main.ts",
-    "dev": "npx ts-node src/main.ts",
+    "start": "node -r ts-node/register --env-file=.env src/main.ts",
+    "dev": "node -r ts-node/register --env-file=.env src/main.ts",
     "build": "tsc || true",
     "makejs": "tsc || true",
     "js": "node dist/main.js",

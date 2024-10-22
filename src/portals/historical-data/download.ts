@@ -24,7 +24,18 @@ export async function downloadHistoricalDataPortal() {
         })
       ).toUpperCase();
 
-      symbolStart = await getCandleStartDate(symbol);
+      if (!symbol) {
+        console.log(colorError("Symbol is required"));
+        continue;
+      }
+
+      try {
+        symbolStart = await getCandleStartDate(symbol);
+      } catch (error) {
+        console.log(colorError((error as Error).toString()));
+        continue;
+      }
+
       valid = !!symbolStart && symbolStart > 0;
 
       if (!valid) console.log(colorError(`Symbol ${symbol} does not exist`));
@@ -96,12 +107,16 @@ export async function downloadHistoricalDataPortal() {
     )
   );
 
-  await downloadHistoricalData(symbol, {
-    interval: choiceInterval,
-    startDate: startTime,
-    endDate: endTime,
-    downloadIsMandatory: true,
-  });
+  try {
+    await downloadHistoricalData(symbol, {
+      interval: choiceInterval,
+      startDate: startTime,
+      endDate: endTime,
+      downloadIsMandatory: true,
+    });
+  } catch (error) {
+    console.log(colorError((error as Error).toString()));
+  }
 
   return { error: false, data: "Successfully downloaded" };
 }

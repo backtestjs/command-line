@@ -9,23 +9,19 @@ const app = express();
 let serverStarted = false;
 
 async function startServer(url: string) {
-  // Start express server if not started yet
   if (!serverStarted) {
     app.use(express.static(path.join(`${__dirname}/../../charts`)));
     app.listen(8000);
     serverStarted = true;
   }
 
-  // Define platfom
   const osPlatform = platform();
   let command: string;
 
-  // Find users OS type
   if (osPlatform === "win32") command = `start microsoft-edge:${url}`;
   else if (osPlatform === "darwin") command = `open -a "Google Chrome" ${url}`;
   else command = `google-chrome --no-sandbox ${url}`;
 
-  // Open browser
   exec(command);
 }
 
@@ -35,7 +31,6 @@ export async function createResultsCharts(
   allOrders: Order[],
   runResultsStats: LooseObject
 ) {
-  // Map the candles to proper format
   const allCandlesResults = allCandles.map((candle: Candle) => {
     return {
       time: candle.closeTime,
@@ -46,13 +41,11 @@ export async function createResultsCharts(
     };
   });
 
-  // Create necessary json files
   fs.writeFileSync(`${__dirname}/../../charts/results-orders.json`, JSON.stringify(allOrders));
   fs.writeFileSync(`${__dirname}/../../charts/results-worths.json`, JSON.stringify(allWorths));
-  fs.writeFileSync(`${__dirname}/../../charts/results-stats.json`, JSON.stringify(runResultsStats.data));
+  fs.writeFileSync(`${__dirname}/../../charts/results-stats.json`, JSON.stringify(runResultsStats));
   fs.writeFileSync(`${__dirname}/../../charts/results-candles.json`, JSON.stringify(allCandlesResults));
 
-  // Open in browser
   await startServer("http://localhost:8000/results.html");
 }
 
@@ -61,17 +54,14 @@ export async function createResultsChartsMulti(
   resultsUnsorted: LooseObject,
   resultStats: LooseObject
 ) {
-  // Create necessary json files
   fs.writeFileSync(`${__dirname}/../../charts/results-multi.json`, JSON.stringify(results));
   fs.writeFileSync(`${__dirname}/../../charts/results-unsorted-multi.json`, JSON.stringify(resultsUnsorted));
-  fs.writeFileSync(`${__dirname}/../../charts/results-stats-multi.json`, JSON.stringify(resultStats.data));
+  fs.writeFileSync(`${__dirname}/../../charts/results-stats-multi.json`, JSON.stringify(resultStats));
 
-  // Open in browser
   await startServer("http://localhost:8000/results-multi.html");
 }
 
 export async function createCandlesChart(allCandles: Candle[], symbolName: string) {
-  // Map the candles to proper format
   const allCandlesResults = allCandles.map((candle: Candle) => {
     return {
       time: candle.closeTime,
@@ -82,10 +72,8 @@ export async function createCandlesChart(allCandles: Candle[], symbolName: strin
     };
   });
 
-  // Create necessary json files
   fs.writeFileSync(`${__dirname}/../../charts/candles.json`, JSON.stringify(allCandlesResults));
   fs.writeFileSync(`${__dirname}/../../charts/candleName.json`, JSON.stringify({ name: symbolName }));
 
-  // Open in browser
   await startServer("http://localhost:8000/candles.html");
 }

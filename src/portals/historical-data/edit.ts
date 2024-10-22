@@ -3,7 +3,7 @@ import { createCandlesChart } from "../../helpers/charts";
 import { exportCSV } from "../../helpers/csv";
 import { headerEditHistoricalData } from "../../infra/headers";
 import { DataReturn } from "../../infra/interfaces";
-import { colorHeader } from "../../infra/colors";
+import { colorHeader, colorError } from "../../infra/colors";
 import { getCandles, deleteHistoricalData, findHistoricalData } from "@backtestjs/core";
 
 export async function editPortal(name: string) {
@@ -57,8 +57,12 @@ export async function editPortal(name: string) {
     } else if (choiceCLI.includes("📥")) {
       portalReturn = await exportCSV(name);
     } else if (choiceCLI.includes("❌")) {
-      await deleteHistoricalData(name);
       back = true;
+      try {
+        await deleteHistoricalData(name);
+      } catch (error) {
+        console.log(colorError((error as Error).toString()));
+      }
     } else if (choiceCLI.includes("👈")) {
       back = true;
       portalReturn.error = false;
