@@ -20,8 +20,7 @@ export async function mainStrategyPortal() {
 
   while (!back) {
     headerStrategies()
-
-    if (portalReturn.data !== '') await handlePortalReturn(portalReturn)
+    await handlePortalReturn(portalReturn)
 
     const choiceCLI = await interactCLI({
       type: 'autocomplete',
@@ -44,7 +43,9 @@ export async function mainStrategyPortal() {
       portalReturn.data = ''
     }
 
-    if (shouldClear) console.clear()
+    if (shouldClear) {
+      console.clear()
+    }
   }
   return portalReturn
 }

@@ -1,7 +1,7 @@
 import { interactCLI } from '../../helpers/portals'
 import { headerScanStrategy } from '../../infra/headers'
 import { scanStrategies } from '@backtestjs/core'
-import { colorError, colorBack, colorHeader } from '../../infra/colors'
+import { colorError, colorBack, colorHeader, colorSuccess } from '../../infra/colors'
 
 export async function scanStrategiesPortal() {
   console.clear()
@@ -20,7 +20,7 @@ export async function scanStrategiesPortal() {
     await scanStrategies()
     message = `Ok strategies aligned`
     console.log()
-    console.log(colorHeader(message))
+    console.log(colorSuccess(message))
   } else {
     message = `Scan strategies aborted`
     console.log(colorError(message))

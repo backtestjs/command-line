@@ -13,6 +13,12 @@ export async function editPortal(name: string) {
   let back = false
   let portalReturn: DataReturn = { error: false, data: '' }
 
+  let choices: string[] = []
+  choices.push('📈 View Candles Chart in Browser')
+  choices.push('📥 Export Candles to CSV')
+  choices.push('❌ Delete Candles')
+  choices.push(colorBack('👈 Back'))
+
   while (!back) {
     const metaData = await findHistoricalData(name)
     if (!metaData) {
@@ -22,18 +28,12 @@ export async function editPortal(name: string) {
     const { symbol, interval, startTime, endTime } = metaData
     const title = `${symbol} | ${interval} | ${dateToString(startTime)} | ${dateToString(endTime)}`
 
-    let choices: string[] = []
-    choices.push('📈 View Candles Chart in Browser')
-    choices.push('📥 Export Candles to CSV')
-    choices.push('❌ Delete Candles')
-    choices.push(colorBack('👈 Back'))
-
     headerEditHistoricalData()
 
     console.log(colorHeader(`${title}`))
     console.log()
 
-    if (portalReturn.data !== '') await handlePortalReturn(portalReturn)
+    await handlePortalReturn(portalReturn)
 
     const choiceCLI = await interactCLI({
       type: 'autocomplete',

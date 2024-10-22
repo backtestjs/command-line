@@ -21,8 +21,7 @@ export async function mainHistoricalDataPortal() {
 
   while (!back) {
     headerHistoricalData()
-
-    if (portalReturn.data !== '') await handlePortalReturn(portalReturn)
+    await handlePortalReturn(portalReturn)
 
     const choiceCLI = await interactCLI({
       type: 'autocomplete',

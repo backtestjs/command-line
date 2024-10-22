@@ -13,22 +13,25 @@ export async function resultsPortalMulti(results: StrategyResultMulti, newResult
   let back = false
   let portalReturn: DataReturn = { error: false, data: '' }
 
-  let choices = ['🎉 All Trading Results In Browser', '📋 Table Of All Trading Results In CLI']
-  choices.push(newResult ? '💾 Save Trading Results' : '🔥 Delete Trading Result')
-  choices.push('🏃 Run Trading Strategy')
-  choices.push('🔮 Run Trading Strategy (more options)')
-  choices.push(colorBack('👈 Back'))
-
+  let choices = [
+    '🎉 All Trading Results In Browser',
+    '📋 Table Of All Trading Results In CLI',
+    newResult ? '💾 Save Trading Results' : '🔥 Delete Trading Result',
+    '🏃 Run Trading Strategy',
+    '🔮 Run Trading Strategy (more options)',
+    colorBack('👈 Back')
+  ]
   while (!back) {
-    if (portalReturn.data !== '') await handlePortalReturn(portalReturn)
-
     headerStrategyResults()
+    await handlePortalReturn(portalReturn)
 
     const choiceCLI = await interactCLI({
       type: 'autocomplete',
       message: 'Choose what to see:',
       choices
     })
+
+    let shouldClear = true
 
     if (choiceCLI.includes('🎉')) {
       const runResultsStats = await parseRunResultsStats(results)
@@ -45,6 +48,7 @@ export async function resultsPortalMulti(results: StrategyResultMulti, newResult
       }
 
       await createResultsChartsMulti(multiResults, results.multiResults, runResultsStats)
+      shouldClear = false
     } else if (choiceCLI.includes('📋')) {
       const runResultsStats = await parseRunResultsStats(results)
 
@@ -55,23 +59,20 @@ export async function resultsPortalMulti(results: StrategyResultMulti, newResult
         results.isMultiSymbol
       )
 
-      console.log()
       console.log(colorHeader('* GENERAL *'))
       removeIndexFromTable(runResultsStats.generalData)
 
-      console.log()
       console.log(colorHeader('* TOTAL RESULTS *'))
       removeIndexFromTable(runResultsStats.totals)
 
       if (!results.isMultiSymbol) {
-        console.log()
         console.log(colorHeader('* ASSET AMOUNTS / PERCENTAGES *'))
         removeIndexFromTable(runResultsStats.assetAmountsPercentages)
       }
 
-      console.log()
       console.log(colorHeader('* ALL PERMUTATION RESULTS *'))
       removeIndexFromTable(multiResults)
+      shouldClear = false
     } else if (choiceCLI.includes('💾')) {
       const allResults = await findMultiResultNames()
 
@@ -101,11 +102,13 @@ export async function resultsPortalMulti(results: StrategyResultMulti, newResult
       return { error: false, data: `Successfully deleted results for ${results.name}` }
     } else if (choiceCLI.includes('🏃')) {
       portalReturn = await runStrategyPortal(true)
-      back = true
     } else if (choiceCLI.includes('🔮')) {
       portalReturn = await runStrategyPortal(false)
-      back = true
     } else if (choiceCLI.includes('👈')) back = true
+
+    if (shouldClear) {
+      console.clear()
+    }
   }
   return portalReturn
 }

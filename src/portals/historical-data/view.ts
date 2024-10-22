@@ -19,8 +19,7 @@ export async function viewHistoricalDataPortal() {
     choices.push(colorBack('👈 Back'))
 
     headerViewHistoricalData()
-
-    if (portalReturn.data !== '') await handlePortalReturn(portalReturn)
+    await handlePortalReturn(portalReturn)
 
     const choiceCLI = await interactCLI({
       type: 'autocomplete',

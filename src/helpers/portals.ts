@@ -6,8 +6,10 @@ import inquirer from 'inquirer'
 import fuzzy from 'fuzzy'
 
 export async function handlePortalReturn(portalReturn: DataReturn) {
-  const m = portalReturn.error ? colorError(portalReturn.data) : colorSuccess(portalReturn.data)
-  console.log(m)
+  if (portalReturn.data !== '') {
+    const m = portalReturn.error ? colorError(portalReturn.data) : colorSuccess(portalReturn.data)
+    console.log(m)
+  }
 }
 
 function stripAnsi(str: string): string {
@@ -19,12 +21,9 @@ export async function interactCLI(paramsCLI: UserQuestions) {
 
   function searchCLI(answers: LooseObject, input = '') {
     return new Promise((resolve) => {
-      setTimeout(
-        () => {
-          resolve(fuzzy.filter(input, paramsCLI.choices ?? []).map((el) => el.original))
-        },
-        Math.random() * 470 + 30
-      )
+      setTimeout(() => {
+        resolve(fuzzy.filter(input, paramsCLI.choices ?? []).map((el) => el.original))
+      }, Math.random() * 470 + 30)
     })
   }
 

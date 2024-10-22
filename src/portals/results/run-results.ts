@@ -16,17 +16,16 @@ export async function resultsPortal(results: GetStrategyResult, newResult: boole
   let choices = [
     '🎉 All Trading Results In Browser',
     '🚀 Statistic Trading Results In CLI',
-    '📋 Table Of All Trades In CLI'
+    '📋 Table Of All Trades In CLI',
+    newResult ? '💾 Save Results' : '🔥 Delete Result',
+    '🏃 Run Trading Strategy',
+    '🔮 Run Trading Strategy (more options)',
+    colorBack('👈 Back')
   ]
-  choices.push(newResult ? '💾 Save Results' : '🔥 Delete Result')
-  choices.push('🏃 Run Trading Strategy')
-  choices.push('🔮 Run Trading Strategy (more options)')
-  choices.push(colorBack('👈 Back'))
 
   while (!back) {
-    if (portalReturn.data !== '') await handlePortalReturn(portalReturn)
-
     headerStrategyResults()
+    await handlePortalReturn(portalReturn)
 
     const choiceCLI = await interactCLI({
       type: 'autocomplete',
@@ -34,35 +33,36 @@ export async function resultsPortal(results: GetStrategyResult, newResult: boole
       choices
     })
 
+    let shouldClear = true
+
     if (choiceCLI.includes('🎉')) {
       const runResultsStats = await parseRunResultsStats(results)
 
       await createResultsCharts(results.allWorths, results.candles, results.allOrders, runResultsStats)
     } else if (choiceCLI.includes('🚀')) {
+      console.clear()
+
       const runResultsStats = await parseRunResultsStats(results)
 
-      console.log()
       console.log(colorHeader('* GENERAL *'))
       removeIndexFromTable(runResultsStats.generalData)
 
-      console.log()
       console.log(colorHeader('* TOTALS *'))
       removeIndexFromTable(runResultsStats.totals)
 
-      console.log()
       console.log(colorHeader('* TRADES *'))
       removeIndexFromTable(runResultsStats.trades)
 
-      console.log()
       console.log(colorHeader('* TRADE BUY / SELL AMOUNTS *'))
       removeIndexFromTable(runResultsStats.tradeBuySellAmounts)
 
-      console.log()
       console.log(colorHeader('* ASSET AMOUNTS / PERCENTAGES *'))
       removeIndexFromTable(runResultsStats.assetAmountsPercentages)
+      shouldClear = false
     } else if (choiceCLI.includes('📋')) {
-      let allOrdersCopy: LooseObject = results.allOrders
+      console.clear()
 
+      let allOrdersCopy: LooseObject = results.allOrders
       const hasNonZeroBorrowedBaseAmount = allOrdersCopy.some((order: LooseObject) => order.borrowedBaseAmount !== 0)
 
       if (!hasNonZeroBorrowedBaseAmount) {
@@ -86,6 +86,7 @@ export async function resultsPortal(results: GetStrategyResult, newResult: boole
       })
 
       console.table(allOrdersCopy)
+      shouldClear = false
     } else if (choiceCLI.includes('💾')) {
       const allResults = await findResultNames()
 
@@ -109,18 +110,24 @@ export async function resultsPortal(results: GetStrategyResult, newResult: boole
         override = saveResultsChoice === 'Yes'
       }
 
+      console.clear()
       await saveResults(results.name, results, override)
       return { error: false, data: `Successfully saved trading results for ${results.name}` }
     } else if (choiceCLI.includes('🔥')) {
+      console.clear()
       await deleteResults(results.name)
       return { error: false, data: `Successfully deleted trading results for ${results.name}` }
     } else if (choiceCLI.includes('🏃')) {
       portalReturn = await runStrategyPortal(true)
-      back = true
     } else if (choiceCLI.includes('🔮')) {
       portalReturn = await runStrategyPortal(false)
+    } else if (choiceCLI.includes('👈')) {
       back = true
-    } else if (choiceCLI.includes('👈')) back = true
+    }
+
+    if (shouldClear) {
+      console.clear()
+    }
   }
   return portalReturn
 }

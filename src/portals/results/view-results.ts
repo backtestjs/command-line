@@ -17,12 +17,10 @@ export async function viewResultsPortal() {
     const choicesMulti = await findMultiResultNames()
     let choices = [...choicesResults, ...choicesMulti]
     if (choices.length === 0) return { error: true, data: 'There are no saved trading results' }
-
     choices.push(colorBack('👈 Back'))
 
     headerResults()
-
-    if (portalReturn.data !== '') await handlePortalReturn(portalReturn)
+    await handlePortalReturn(portalReturn)
 
     const choiceCLI = await interactCLI({
       type: 'autocomplete',
@@ -39,8 +37,6 @@ export async function viewResultsPortal() {
       const strategyResults = await getResult(choiceCLI)
       portalReturn = await resultsPortal(strategyResults, false)
     }
-
-    console.clear()
   }
   return portalReturn
 }
