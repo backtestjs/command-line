@@ -5,8 +5,10 @@ import { DataReturn, GetStrategyResult, LooseObject } from "../../infra/interfac
 import { headerStrategyResults } from "../../infra/headers";
 import { colorHeader } from "../../infra/colors";
 
+import { parseRunResultsStats } from "@backtestjs/core";
+
 import { insertResult, getAllStrategyResultNames, deleteStrategyResult } from "../../helpers/prisma-results";
-import { parseRunResultsStats, round, removeIndexFromTable } from "../../helpers/parse";
+import { round, removeIndexFromTable } from "../../helpers/parse";
 
 export async function resultsPortal(results: GetStrategyResult, newResult: boolean) {
   if (!newResult) console.clear();
@@ -36,61 +38,31 @@ export async function resultsPortal(results: GetStrategyResult, newResult: boole
     });
 
     if (choiceCLI.includes("🎉")) {
-      const runResultsStats = await parseRunResultsStats({
-        name: results.name,
-        historicalDataName: results.historicalDataName,
-        strategyName: results.strategyName,
-        params: results.params,
-        startTime: results.startTime,
-        endTime: results.endTime,
-        txFee: results.txFee,
-        slippage: results.slippage,
-        startingAmount: results.startingAmount,
-        runMetaData: results.runMetaData,
-        allOrders: results.allOrders,
-        allWorths: results.allWorths,
-      });
+      const runResultsStats = await parseRunResultsStats(results);
 
       await createResultsCharts(results.allWorths, results.candles, results.allOrders, runResultsStats);
     } else if (choiceCLI.includes("🚀")) {
-      const runResultsStatsReturn = await parseRunResultsStats({
-        name: results.name,
-        historicalDataName: results.historicalDataName,
-        strategyName: results.strategyName,
-        params: results.params,
-        startTime: results.startTime,
-        endTime: results.endTime,
-        txFee: results.txFee,
-        slippage: results.slippage,
-        startingAmount: results.startingAmount,
-        runMetaData: results.runMetaData,
-        allOrders: results.allOrders,
-        allWorths: results.allWorths,
-      });
-      if (runResultsStatsReturn.error) return runResultsStatsReturn;
-      const runResultsStats = runResultsStatsReturn.data;
+      const runResultsStats = await parseRunResultsStats(results);
 
-      if (typeof runResultsStats !== "string") {
-        console.log("");
-        console.log(colorHeader("|            *** GENERAL ***           |"));
-        removeIndexFromTable(runResultsStats.generalData);
+      console.log("");
+      console.log(colorHeader("|            *** GENERAL ***           |"));
+      removeIndexFromTable(runResultsStats.generalData);
 
-        console.log("");
-        console.log(colorHeader("|            *** TOTALS ***            |"));
-        removeIndexFromTable(runResultsStats.totals);
+      console.log("");
+      console.log(colorHeader("|            *** TOTALS ***            |"));
+      removeIndexFromTable(runResultsStats.totals);
 
-        console.log("");
-        console.log(colorHeader("|            *** TRADES ***            |"));
-        removeIndexFromTable(runResultsStats.trades);
+      console.log("");
+      console.log(colorHeader("|            *** TRADES ***            |"));
+      removeIndexFromTable(runResultsStats.trades);
 
-        console.log("");
-        console.log(colorHeader("|            *** TRADE BUY / SELL AMOUNTS ***            |"));
-        removeIndexFromTable(runResultsStats.tradeBuySellAmounts);
+      console.log("");
+      console.log(colorHeader("|            *** TRADE BUY / SELL AMOUNTS ***            |"));
+      removeIndexFromTable(runResultsStats.tradeBuySellAmounts);
 
-        console.log("");
-        console.log(colorHeader("|            *** ASSET AMOUNTS / PERCENTAGES ***            |"));
-        removeIndexFromTable(runResultsStats.assetAmountsPercentages);
-      }
+      console.log("");
+      console.log(colorHeader("|            *** ASSET AMOUNTS / PERCENTAGES ***            |"));
+      removeIndexFromTable(runResultsStats.assetAmountsPercentages);
     } else if (choiceCLI.includes("📋")) {
       let allOrdersCopy: LooseObject = results.allOrders;
 
