@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -24,17 +24,17 @@
 
     <script type="text/javascript" src="script.js"></script>
     <script type="module">
-      import { initializeChart } from "./helpers.js";
+      import { initializeChart } from './helpers.js'
 
-      document.addEventListener("DOMContentLoaded", async () => {
+      document.addEventListener('DOMContentLoaded', async () => {
         await initializeChart(
-          "http://localhost:8000/candles.json",
-          "container1",
-          "legend1",
-          "http://localhost:8000/candleName.json",
+          'http://localhost:8000/candles.json',
+          'container1',
+          'legend1',
+          'http://localhost:8000/candleName.json',
           true
-        );
-      });
+        )
+      })
     </script>
   </body>
 </html>

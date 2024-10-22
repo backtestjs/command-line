@@ -1,37 +1,37 @@
-import { getIntervals } from "@backtestjs/core";
-import { interactCLI } from "../../helpers/portals";
-import { importCSV } from "../../helpers/csv";
-import { headerImportCSV } from "../../infra/headers";
+import { getIntervals } from '@backtestjs/core'
+import { interactCLI } from '../../helpers/portals'
+import { importCSV } from '../../helpers/csv'
+import { headerImportCSV } from '../../infra/headers'
 
 export async function importCSVPortal() {
-  console.clear();
+  console.clear()
 
-  headerImportCSV();
+  headerImportCSV()
 
   const base = (
     await interactCLI({
-      type: "input",
-      message: "Base name (EX: BTC in BTCUSDT or APPL in APPL/USD):",
+      type: 'input',
+      message: 'Base name (EX: BTC in BTCUSDT or APPL in APPL/USD):'
     })
-  ).toUpperCase();
+  ).toUpperCase()
 
   const quote = (
     await interactCLI({
-      type: "input",
-      message: "Quote name (EX: USDT in BTCUSDT or USD in APPL/USD):",
+      type: 'input',
+      message: 'Quote name (EX: USDT in BTCUSDT or USD in APPL/USD):'
     })
-  ).toUpperCase();
+  ).toUpperCase()
 
   const interval = await interactCLI({
-    type: "autocomplete",
-    message: "Interval:",
-    choices: getIntervals(),
-  });
+    type: 'autocomplete',
+    message: 'Interval:',
+    choices: getIntervals()
+  })
 
   const path = await interactCLI({
-    type: "input",
-    message: "Full Path to CSV:",
-  });
+    type: 'input',
+    message: 'Full Path to CSV:'
+  })
 
-  return await importCSV({ interval, base, quote, path });
+  return await importCSV({ interval, base, quote, path })
 }

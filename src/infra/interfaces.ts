@@ -15,8 +15,8 @@ import {
   Worth,
   RunMetaData,
   StrategyMeta,
-  LooseObject,
-} from "@backtestjs/core";
+  LooseObject
+} from '@backtestjs/core'
 
 export {
   RunStrategy,
@@ -35,17 +35,17 @@ export {
   Worth,
   RunMetaData,
   StrategyMeta,
-  LooseObject,
-};
+  LooseObject
+}
 
 export interface UserQuestions {
-  type: string;
-  message: string;
-  choices?: string[];
-  dateDefault?: number;
+  type: string
+  message: string
+  choices?: string[]
+  dateDefault?: number
 }
 
 export interface DataReturn {
-  error: boolean;
-  data: string | LooseObject;
+  error: boolean
+  data: string | LooseObject
 }

@@ -1,44 +1,44 @@
-import { interactCLI, handlePortalReturn } from "../../helpers/portals";
-import { headerHistoricalData } from "../../infra/headers";
-import { DataReturn } from "../../infra/interfaces";
-import { viewHistoricalDataPortal } from "./view";
-import { downloadHistoricalDataPortal } from "./download";
-import { importCSVPortal } from "./import-csv";
+import { interactCLI, handlePortalReturn } from '../../helpers/portals'
+import { headerHistoricalData } from '../../infra/headers'
+import { DataReturn } from '../../infra/interfaces'
+import { viewHistoricalDataPortal } from './view'
+import { downloadHistoricalDataPortal } from './download'
+import { importCSVPortal } from './import-csv'
 
 export async function mainHistoricalDataPortal() {
-  console.clear();
+  console.clear()
 
-  let back = false;
-  let portalReturn: DataReturn = { error: false, data: "" };
+  let back = false
+  let portalReturn: DataReturn = { error: false, data: '' }
 
   const choices = [
-    "🔍 View / Update / Delete Downloaded Candle Data",
-    "⬇️  Download Candle Data from Binance",
-    "📥 Import Candle Data from CSV",
-    "👈 Back",
-  ];
+    '🔍 View / Update / Delete Downloaded Candle Data',
+    '⬇️  Download Candle Data from Binance',
+    '📥 Import Candle Data from CSV',
+    '👈 Back'
+  ]
 
   while (!back) {
-    headerHistoricalData();
+    headerHistoricalData()
 
-    if (portalReturn.data !== "") await handlePortalReturn(portalReturn);
+    if (portalReturn.data !== '') await handlePortalReturn(portalReturn)
 
     const choiceCLI = await interactCLI({
-      type: "autocomplete",
-      message: "Choose what to do:",
-      choices,
-    });
+      type: 'autocomplete',
+      message: 'Choose what to do:',
+      choices
+    })
 
-    /**/ if (choiceCLI.includes("🔍")) portalReturn = await viewHistoricalDataPortal();
-    else if (choiceCLI.includes("⬇️")) portalReturn = await downloadHistoricalDataPortal();
-    else if (choiceCLI.includes("📥")) portalReturn = await importCSVPortal();
-    else if (choiceCLI.includes("👈")) {
-      back = true;
-      portalReturn.error = false;
-      portalReturn.data = "";
+    /**/ if (choiceCLI.includes('🔍')) portalReturn = await viewHistoricalDataPortal()
+    else if (choiceCLI.includes('⬇️')) portalReturn = await downloadHistoricalDataPortal()
+    else if (choiceCLI.includes('📥')) portalReturn = await importCSVPortal()
+    else if (choiceCLI.includes('👈')) {
+      back = true
+      portalReturn.error = false
+      portalReturn.data = ''
     }
 
-    console.clear();
+    console.clear()
   }
-  return portalReturn;
+  return portalReturn
 }

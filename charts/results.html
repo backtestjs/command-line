@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -67,38 +67,38 @@
 
     <script type="text/javascript" src="script.js"></script>
     <script type="module">
-      import { initializeChart, populateTable } from "./helpers.js";
+      import { initializeChart, populateTable } from './helpers.js'
 
       async function initChartsAndTables() {
         // Initialize charts
-        await initializeChart("http://localhost:8000/results-worths.json", "container1", "legend1", false);
+        await initializeChart('http://localhost:8000/results-worths.json', 'container1', 'legend1', false)
         await initializeChart(
-          "http://localhost:8000/results-candles.json",
-          "container2",
-          "legend2",
+          'http://localhost:8000/results-candles.json',
+          'container2',
+          'legend2',
           false,
-          "http://localhost:8000/results-orders.json"
-        );
+          'http://localhost:8000/results-orders.json'
+        )
 
         // Populate tables
-        await populateTable("http://localhost:8000/results-orders.json", "orders-table");
-        await populateTable("http://localhost:8000/results-stats.json", "general-table", "generalData");
-        await populateTable("http://localhost:8000/results-stats.json", "total-amounts-table", "totals");
-        await populateTable("http://localhost:8000/results-stats.json", "trade-percentages-table", "trades");
+        await populateTable('http://localhost:8000/results-orders.json', 'orders-table')
+        await populateTable('http://localhost:8000/results-stats.json', 'general-table', 'generalData')
+        await populateTable('http://localhost:8000/results-stats.json', 'total-amounts-table', 'totals')
+        await populateTable('http://localhost:8000/results-stats.json', 'trade-percentages-table', 'trades')
         await populateTable(
-          "http://localhost:8000/results-stats.json",
-          "trade-buy-sell-amounts-table",
-          "tradeBuySellAmounts"
-        );
+          'http://localhost:8000/results-stats.json',
+          'trade-buy-sell-amounts-table',
+          'tradeBuySellAmounts'
+        )
         await populateTable(
-          "http://localhost:8000/results-stats.json",
-          "asset-amount-percentages-table",
-          "assetAmountsPercentages"
-        );
+          'http://localhost:8000/results-stats.json',
+          'asset-amount-percentages-table',
+          'assetAmountsPercentages'
+        )
       }
 
       // Ensure this runs after DOM content is fully loaded
-      document.addEventListener("DOMContentLoaded", initChartsAndTables);
+      document.addEventListener('DOMContentLoaded', initChartsAndTables)
     </script>
   </body>
 </html>
