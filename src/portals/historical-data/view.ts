@@ -1,7 +1,7 @@
 import { interactCLI, handlePortalReturn } from '../../helpers/portals'
 import { DataReturn } from '../../infra/interfaces'
 import { headerViewHistoricalData } from '../../infra/headers'
-import { colorChoice } from '../../infra/colors'
+import { colorBack } from '../../infra/colors'
 import { editPortal } from './edit'
 import { findHistoricalDataNames } from '@backtestjs/core'
 
@@ -16,7 +16,7 @@ export async function viewHistoricalDataPortal() {
     if (!historicalNames?.length) return { error: true, data: 'There are no saved candles' }
 
     let choices: string[] = historicalNames
-    choices.push(colorChoice('👈 Back'))
+    choices.push(colorBack('👈 Back'))
 
     headerViewHistoricalData()
 

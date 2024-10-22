@@ -1,6 +1,7 @@
 import { interactCLI, handlePortalReturn } from '../../helpers/portals'
 import { DataReturn } from '../../infra/interfaces'
 import { headerResults } from '../../infra/headers'
+import { colorBack } from '../../infra/colors'
 import { resultsPortalMulti } from './run-results-multi'
 import { resultsPortal } from './run-results'
 import { findResultNames, findMultiResultNames, getResult, getMultiResult } from '@backtestjs/core'
@@ -17,7 +18,7 @@ export async function viewResultsPortal() {
     let choices = [...choicesResults, ...choicesMulti]
     if (choices.length === 0) return { error: true, data: 'There are no saved trading results' }
 
-    choices.push('👈 Back')
+    choices.push(colorBack('👈 Back'))
 
     headerResults()
 

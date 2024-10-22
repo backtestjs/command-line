@@ -1,6 +1,7 @@
 import { interactCLI } from '../../helpers/portals'
 import { headerDownloadHistoricalData } from '../../infra/headers'
 import { colorSuccess, colorError } from '../../infra/colors'
+import { dateToString } from '../../helpers/parse'
 import { downloadHistoricalData, getCandleStartDate, getIntervals, findHistoricalData } from '@backtestjs/core'
 
 export async function downloadHistoricalDataPortal() {
@@ -75,9 +76,8 @@ export async function downloadHistoricalDataPortal() {
     })
     startTime = new Date(startTimeInput).getTime()
 
-    if (startTime < symbolStart)
-      console.log(colorError(`Date must be on or after ${new Date(symbolStart).toLocaleString()}`))
-    else if (startTime > now) console.log(colorError(`Date must be on or before ${new Date(now).toLocaleString()}`))
+    if (startTime < symbolStart) console.log(colorError(`Date must be on or after ${dateToString(symbolStart)}`))
+    else if (startTime > now) console.log(colorError(`Date must be on or before ${dateToString(now)}`))
     else valid = true
   }
   valid = false
@@ -91,9 +91,9 @@ export async function downloadHistoricalDataPortal() {
     })
     endTime = new Date(endTimeInput).getTime()
 
-    if (endTime > now) console.log(colorError(`Date must be on or before ${new Date(now).toLocaleString()}`))
+    if (endTime > now) console.log(colorError(`Date must be on or before ${dateToString(now)}`))
     else if (endTime <= startTime)
-      console.log(colorError(`Date must be after your declared start time of ${new Date(startTime).toLocaleString()}`))
+      console.log(colorError(`Date must be after your declared start time of ${dateToString(startTime)}`))
     else valid = true
   }
   valid = false
@@ -101,9 +101,9 @@ export async function downloadHistoricalDataPortal() {
   console.log()
   console.log(
     colorSuccess(
-      `Downloading ${symbol} data from ${new Date(startTime).toLocaleString()} to ${new Date(
+      `Downloading ${symbol} data from ${dateToString(startTime)} to ${dateToString(
         endTime
-      ).toLocaleString()} at the ${choiceInterval} interval`
+      )} at the ${choiceInterval} interval`
     )
   )
 

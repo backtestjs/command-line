@@ -1,7 +1,7 @@
 import { interactCLI } from '../../helpers/portals'
 import { headerScanStrategy } from '../../infra/headers'
 import { scanStrategies } from '@backtestjs/core'
-import { colorError, colorChoice, colorHeader } from '../../infra/colors'
+import { colorError, colorBack, colorHeader } from '../../infra/colors'
 
 export async function scanStrategiesPortal() {
   console.clear()
@@ -30,7 +30,7 @@ export async function scanStrategiesPortal() {
   const choiceCLI = await interactCLI({
     type: 'autocomplete',
     message: 'All done:',
-    choices: [colorChoice('👈 Back')]
+    choices: [colorBack('👈 Back')]
   })
 
   // implict if (choiceCLI.includes("👈"))

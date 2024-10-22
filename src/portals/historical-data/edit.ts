@@ -1,9 +1,10 @@
 import { interactCLI, handlePortalReturn } from '../../helpers/portals'
 import { createCandlesChart } from '../../helpers/charts'
 import { exportCSV } from '../../helpers/csv'
+import { dateToString } from '../../helpers/parse'
 import { headerEditHistoricalData } from '../../infra/headers'
 import { DataReturn } from '../../infra/interfaces'
-import { colorHeader, colorError } from '../../infra/colors'
+import { colorHeader, colorError, colorBack } from '../../infra/colors'
 import { getCandles, deleteHistoricalData, findHistoricalData } from '@backtestjs/core'
 
 export async function editPortal(name: string) {
@@ -18,25 +19,19 @@ export async function editPortal(name: string) {
       return { error: true, data: `Historical data with name ${name} not found` }
     }
 
-    const title = `|   ${metaData.symbol}   |   ${metaData.interval}   |   ${new Date(
-      metaData.startTime
-    ).toLocaleString()}   |  ${new Date(metaData.endTime).toLocaleString()} `
+    const { symbol, interval, startTime, endTime } = metaData
+    const title = `${symbol} | ${interval} | ${dateToString(startTime)} | ${dateToString(endTime)}`
 
     let choices: string[] = []
     choices.push('📈 View Candles Chart in Browser')
     choices.push('📥 Export Candles to CSV')
     choices.push('❌ Delete Candles')
-    choices.push('👈 Back')
+    choices.push(colorBack('👈 Back'))
 
     headerEditHistoricalData()
-    console.log('')
-    console.log(
-      colorHeader(' --------------------------------------------------------------------------------------------------')
-    )
-    console.log(colorHeader(`|     ***** ${title} *****     |`))
-    console.log(
-      colorHeader(' --------------------------------------------------------------------------------------------------')
-    )
+
+    console.log(colorHeader(`${title}`))
+    console.log()
 
     if (portalReturn.data !== '') await handlePortalReturn(portalReturn)
 

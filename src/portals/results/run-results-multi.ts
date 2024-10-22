@@ -4,7 +4,7 @@ import { createResultsChartsMulti } from '../../helpers/charts'
 import { removeIndexFromTable, parseMultiResults } from '../../helpers/parse'
 import { DataReturn, StrategyResultMulti } from '../../infra/interfaces'
 import { headerStrategyResults } from '../../infra/headers'
-import { colorHeader } from '../../infra/colors'
+import { colorHeader, colorBack } from '../../infra/colors'
 import { saveMultiResults, deleteMultiResults, findMultiResultNames, parseRunResultsStats } from '@backtestjs/core'
 
 export async function resultsPortalMulti(results: StrategyResultMulti, newResult: boolean) {
@@ -17,7 +17,7 @@ export async function resultsPortalMulti(results: StrategyResultMulti, newResult
   choices.push(newResult ? '💾 Save Trading Results' : '🔥 Delete Trading Result')
   choices.push('🏃 Run Trading Strategy')
   choices.push('🔮 Run Trading Strategy (more options)')
-  choices.push('👈 Back')
+  choices.push(colorBack('👈 Back'))
 
   while (!back) {
     if (portalReturn.data !== '') await handlePortalReturn(portalReturn)
@@ -55,22 +55,22 @@ export async function resultsPortalMulti(results: StrategyResultMulti, newResult
         results.isMultiSymbol
       )
 
-      console.log('')
-      console.log(colorHeader('|              *** GENERAL ***            |'))
+      console.log()
+      console.log(colorHeader('* GENERAL *'))
       removeIndexFromTable(runResultsStats.generalData)
 
-      console.log('')
-      console.log(colorHeader('|                     *** TOTAL RESULTS ***                 |'))
+      console.log()
+      console.log(colorHeader('* TOTAL RESULTS *'))
       removeIndexFromTable(runResultsStats.totals)
 
       if (!results.isMultiSymbol) {
-        console.log('')
-        console.log(colorHeader('|            *** ASSET AMOUNTS / PERCENTAGES ***            |'))
+        console.log()
+        console.log(colorHeader('* ASSET AMOUNTS / PERCENTAGES *'))
         removeIndexFromTable(runResultsStats.assetAmountsPercentages)
       }
 
-      console.log('')
-      console.log(colorHeader('|               *** ALL PERMUTATION RESULTS ***             |'))
+      console.log()
+      console.log(colorHeader('* ALL PERMUTATION RESULTS *'))
       removeIndexFromTable(multiResults)
     } else if (choiceCLI.includes('💾')) {
       const allResults = await findMultiResultNames()

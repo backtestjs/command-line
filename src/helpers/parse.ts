@@ -83,3 +83,7 @@ export function parseMultiResults(
 
   return data
 }
+
+export function dateToString(date: Date | number | string) {
+  return new Date(date).toLocaleString()
+}

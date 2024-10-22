@@ -4,7 +4,7 @@ import { createResultsCharts } from '../../helpers/charts'
 import { removeIndexFromTable, round } from '../../helpers/parse'
 import { DataReturn, GetStrategyResult, LooseObject } from '../../infra/interfaces'
 import { headerStrategyResults } from '../../infra/headers'
-import { colorHeader } from '../../infra/colors'
+import { colorHeader, colorBack } from '../../infra/colors'
 import { saveResults, deleteResults, findResultNames, parseRunResultsStats } from '@backtestjs/core'
 
 export async function resultsPortal(results: GetStrategyResult, newResult: boolean) {
@@ -21,7 +21,7 @@ export async function resultsPortal(results: GetStrategyResult, newResult: boole
   choices.push(newResult ? '💾 Save Results' : '🔥 Delete Result')
   choices.push('🏃 Run Trading Strategy')
   choices.push('🔮 Run Trading Strategy (more options)')
-  choices.push('👈 Back')
+  choices.push(colorBack('👈 Back'))
 
   while (!back) {
     if (portalReturn.data !== '') await handlePortalReturn(portalReturn)
@@ -41,24 +41,24 @@ export async function resultsPortal(results: GetStrategyResult, newResult: boole
     } else if (choiceCLI.includes('🚀')) {
       const runResultsStats = await parseRunResultsStats(results)
 
-      console.log('')
-      console.log(colorHeader('|            *** GENERAL ***           |'))
+      console.log()
+      console.log(colorHeader('* GENERAL *'))
       removeIndexFromTable(runResultsStats.generalData)
 
-      console.log('')
-      console.log(colorHeader('|            *** TOTALS ***            |'))
+      console.log()
+      console.log(colorHeader('* TOTALS *'))
       removeIndexFromTable(runResultsStats.totals)
 
-      console.log('')
-      console.log(colorHeader('|            *** TRADES ***            |'))
+      console.log()
+      console.log(colorHeader('* TRADES *'))
       removeIndexFromTable(runResultsStats.trades)
 
-      console.log('')
-      console.log(colorHeader('|            *** TRADE BUY / SELL AMOUNTS ***            |'))
+      console.log()
+      console.log(colorHeader('* TRADE BUY / SELL AMOUNTS *'))
       removeIndexFromTable(runResultsStats.tradeBuySellAmounts)
 
-      console.log('')
-      console.log(colorHeader('|            *** ASSET AMOUNTS / PERCENTAGES ***            |'))
+      console.log()
+      console.log(colorHeader('* ASSET AMOUNTS / PERCENTAGES *'))
       removeIndexFromTable(runResultsStats.assetAmountsPercentages)
     } else if (choiceCLI.includes('📋')) {
       let allOrdersCopy: LooseObject = results.allOrders

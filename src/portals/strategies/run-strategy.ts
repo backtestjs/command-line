@@ -1,6 +1,7 @@
 import { LooseObject, DataReturn } from '../../infra/interfaces'
 import { interactCLI } from '../../helpers/portals'
-import { colorChoice, colorError, colorMessage, colorSuccess } from '../../infra/colors'
+import { dateToString } from '../../helpers/parse'
+import { colorBack, colorError, colorMessage, colorSuccess } from '../../infra/colors'
 import { headerRunStrategy } from '../../infra/headers'
 import { resultsPortal } from '../results/run-results'
 import { resultsPortalMulti } from '../results/run-results-multi'
@@ -38,7 +39,7 @@ export async function runStrategyPortal(runFast: boolean) {
     if (!strategyNames?.length) return { error: true, data: 'There are no saved strategies' }
 
     let choicesStrategy: string[] = strategyNames
-    choicesStrategy.push(colorChoice('👈 Back'))
+    choicesStrategy.push(colorBack('👈 Back'))
 
     headerRunStrategy()
 
@@ -128,13 +129,9 @@ export async function runStrategyPortal(runFast: boolean) {
           runParams.startTime = new Date(startTimeInput).getTime()
 
           if (runParams.startTime < historicalMetaData.startTime)
-            console.log(
-              colorError(`Date must be on or after ${new Date(historicalMetaData.startTime).toLocaleString()}`)
-            )
+            console.log(colorError(`Date must be on or after ${dateToString(historicalMetaData.startTime)}`))
           else if (runParams.startTime > historicalMetaData.endTime)
-            console.log(
-              colorError(`Date must be on or before ${new Date(historicalMetaData.endTime).toLocaleString()}`)
-            )
+            console.log(colorError(`Date must be on or before ${dateToString(historicalMetaData.endTime)}`))
           else valid = true
         }
         valid = false
@@ -148,14 +145,10 @@ export async function runStrategyPortal(runFast: boolean) {
           runParams.endTime = new Date(endTimeInput).getTime()
 
           if (runParams.endTime > historicalMetaData.endTime)
-            console.log(
-              colorError(`Date must be on or before ${new Date(historicalMetaData.endTime).toLocaleString()}`)
-            )
+            console.log(colorError(`Date must be on or before ${dateToString(historicalMetaData.endTime)}`))
           else if (runParams.endTime <= runParams.startTime)
             console.log(
-              colorError(
-                `Date must be after your declared start time of ${new Date(runParams.startTime).toLocaleString()}`
-              )
+              colorError(`Date must be after your declared start time of ${dateToString(runParams.startTime)}`)
             )
           else valid = true
         }

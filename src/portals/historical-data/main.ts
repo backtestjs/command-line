@@ -1,5 +1,6 @@
 import { interactCLI, handlePortalReturn } from '../../helpers/portals'
 import { headerHistoricalData } from '../../infra/headers'
+import { colorBack } from '../../infra/colors'
 import { DataReturn } from '../../infra/interfaces'
 import { viewHistoricalDataPortal } from './view'
 import { downloadHistoricalDataPortal } from './download'
@@ -15,7 +16,7 @@ export async function mainHistoricalDataPortal() {
     '🔍 View / Update / Delete Downloaded Candle Data',
     '⬇️  Download Candle Data from Binance',
     '📥 Import Candle Data from CSV',
-    '👈 Back'
+    colorBack('👈 Back')
   ]
 
   while (!back) {

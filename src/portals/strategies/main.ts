@@ -1,5 +1,6 @@
 import { interactCLI, handlePortalReturn } from '../../helpers/portals'
 import { headerStrategies } from '../../infra/headers'
+import { colorBack } from '../../infra/colors'
 import { DataReturn } from '../../infra/interfaces'
 import { runStrategyPortal } from './run-strategy'
 import { scanStrategiesPortal } from './scan'
@@ -14,7 +15,7 @@ export async function mainStrategyPortal() {
     '🏃 Run Trading Strategy',
     '🔮 Run Trading Strategy (more options)',
     '🌀 Scan Trading Strategies',
-    '👈 Back'
+    colorBack('👈 Back')
   ]
 
   while (!back) {
