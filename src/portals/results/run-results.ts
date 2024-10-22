@@ -4,11 +4,7 @@ import { createResultsCharts } from "../../helpers/charts";
 import { DataReturn, GetStrategyResult, LooseObject } from "../../infra/interfaces";
 import { headerStrategyResults } from "../../infra/headers";
 import { colorHeader } from "../../infra/colors";
-
 import { parseRunResultsStats } from "@backtestjs/core";
-
-import { insertResult, getAllStrategyResultNames, deleteStrategyResult } from "../../helpers/prisma-results";
-import { round, removeIndexFromTable } from "../../helpers/parse";
 
 export async function resultsPortal(results: GetStrategyResult, newResult: boolean) {
   if (!newResult) console.clear();
@@ -38,11 +34,11 @@ export async function resultsPortal(results: GetStrategyResult, newResult: boole
     });
 
     if (choiceCLI.includes("🎉")) {
-      const runResultsStats = await parseRunResultsStats(results);
+      const runResultsStats = parseRunResultsStats(results);
 
       await createResultsCharts(results.allWorths, results.candles, results.allOrders, runResultsStats);
     } else if (choiceCLI.includes("🚀")) {
-      const runResultsStats = await parseRunResultsStats(results);
+      const runResultsStats = parseRunResultsStats(results);
 
       console.log("");
       console.log(colorHeader("|            *** GENERAL ***           |"));

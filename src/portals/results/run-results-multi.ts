@@ -4,9 +4,7 @@ import { createResultsChartsMulti } from "../../helpers/charts";
 import { DataReturn, StrategyResultMulti } from "../../infra/interfaces";
 import { headerStrategyResults } from "../../infra/headers";
 import { colorHeader } from "../../infra/colors";
-
-import { insertMultiResult, getAllMultiResults, deleteMultiResult } from "../../helpers/prisma-results-multi-value";
-import { parseRunResultsStatsMulti, removeIndexFromTable, parseMultiResults } from "../../helpers/parse";
+import { parseRunResultsStats } from "@backtestjs/core";
 
 export async function resultsPortalMulti(results: StrategyResultMulti, newResult: boolean) {
   if (!newResult) console.clear();
@@ -32,21 +30,7 @@ export async function resultsPortalMulti(results: StrategyResultMulti, newResult
     });
 
     if (choiceCLI.includes("🎉")) {
-      const runResultsStats = await parseRunResultsStatsMulti({
-        name: results.name,
-        permutationCount: results.multiResults.length,
-        symbols: results.symbols,
-        strategyName: results.strategyName,
-        params: results.params,
-        startTime: results.startTime,
-        endTime: results.endTime,
-        txFee: results.txFee,
-        slippage: results.slippage,
-        startingAmount: results.startingAmount,
-        multiResults: results.multiResults,
-        isMultiValue: results.isMultiValue,
-        isMultiSymbol: results.isMultiSymbol,
-      });
+      const runResultsStats = await parseRunResultsStats(results);
 
       const multiResultsParsed = parseMultiResults(
         [...results.multiResults],
@@ -61,23 +45,7 @@ export async function resultsPortalMulti(results: StrategyResultMulti, newResult
 
       await createResultsChartsMulti(multiResults, results.multiResults, runResultsStats);
     } else if (choiceCLI.includes("📋")) {
-      const runResultsStatsReturn = await parseRunResultsStatsMulti({
-        name: results.name,
-        permutationCount: results.multiResults.length,
-        symbols: results.symbols,
-        strategyName: results.strategyName,
-        params: results.params,
-        startTime: results.startTime,
-        endTime: results.endTime,
-        txFee: results.txFee,
-        slippage: results.slippage,
-        startingAmount: results.startingAmount,
-        multiResults: results.multiResults,
-        isMultiValue: results.isMultiValue,
-        isMultiSymbol: results.isMultiSymbol,
-      });
-      if (runResultsStatsReturn.error) return runResultsStatsReturn;
-      const runResultsStats = runResultsStatsReturn.data;
+      const runResultsStats = await parseRunResultsStats(results);
 
       const multiResults = parseMultiResults(
         [...results.multiResults],
@@ -86,25 +54,23 @@ export async function resultsPortalMulti(results: StrategyResultMulti, newResult
         results.isMultiSymbol
       );
 
-      if (typeof runResultsStats !== "string") {
-        console.log("");
-        console.log(colorHeader("|              *** GENERAL ***            |"));
-        removeIndexFromTable(runResultsStats.generalData);
+      console.log("");
+      console.log(colorHeader("|              *** GENERAL ***            |"));
+      removeIndexFromTable(runResultsStats.generalData);
 
-        console.log("");
-        console.log(colorHeader("|                     *** TOTAL RESULTS ***                 |"));
-        removeIndexFromTable(runResultsStats.totals);
+      console.log("");
+      console.log(colorHeader("|                     *** TOTAL RESULTS ***                 |"));
+      removeIndexFromTable(runResultsStats.totals);
 
-        if (!results.isMultiSymbol) {
-          console.log("");
-          console.log(colorHeader("|            *** ASSET AMOUNTS / PERCENTAGES ***            |"));
-          removeIndexFromTable(runResultsStats.assetAmountsPercentages);
-        }
-
+      if (!results.isMultiSymbol) {
         console.log("");
-        console.log(colorHeader("|               *** ALL PERMUTATION RESULTS ***             |"));
-        removeIndexFromTable(multiResults);
+        console.log(colorHeader("|            *** ASSET AMOUNTS / PERCENTAGES ***            |"));
+        removeIndexFromTable(runResultsStats.assetAmountsPercentages);
       }
+
+      console.log("");
+      console.log(colorHeader("|               *** ALL PERMUTATION RESULTS ***             |"));
+      removeIndexFromTable(multiResults);
     } else if (choiceCLI.includes("💾")) {
       let allResultsReturn = await getAllMultiResults();
       if (allResultsReturn.error) return allResultsReturn;
