@@ -238,7 +238,7 @@ await sell({ price: 2100 });
 Below is an example of a simple 3 over 45 SMA strategy. You buy once the 3 crosses the 45 and sell otherwise. In this example, we don’t use the power of params.
 
 ```typescript
-import { BTH } from "../infra/interfaces";
+import { BTH } from "@backtestjs/core";
 import { indicatorSMA } from "../indicators/moving-averages";
 
 export async function runStrategy(bth: BTH) {
@@ -270,7 +270,7 @@ export async function runStrategy(bth: BTH) {
 Below is an example of a simple SMA strategy like above but it’s not hard-coded to the 3 over 45. When you run the strategy through the CLI, you will be asked to provide a low and high SMA. You can even provide multiple lows and multiple highs, and all the variations will be tested in one run.
 
 ```typescript
-import { BTH } from "../infra/interfaces";
+import { BTH } from "@backtestjs/core";
 import { indicatorSMA } from "../indicators/moving-averages";
 
 export const properties = {

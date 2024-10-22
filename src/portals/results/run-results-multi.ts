@@ -1,37 +1,19 @@
-// ----------------------------------------------------
-// |               STRATEGY RESULTS PORTAL            |
-// ----------------------------------------------------
-
-// ----------------------------------------------------
-// |                     GLOBALS                      |
-// ----------------------------------------------------
-
-import { runStrategyPortal } from "../strategies/run-strategy";
-
-// Define helper imports
-import { insertMultiResult, getAllMultiResults, deleteMultiResult } from "../../helpers/prisma-results-multi-value";
 import { interactCLI, handlePortalReturn } from "../../helpers/portals";
-import { parseRunResultsStatsMulti, removeIndexFromTable, parseMultiResults } from "../../helpers/parse";
+import { runStrategyPortal } from "../strategies/run-strategy";
 import { createResultsChartsMulti } from "../../helpers/charts";
-
-// Define infra imports
 import { DataReturn, StrategyResultMulti } from "../../infra/interfaces";
 import { headerStrategyResults } from "../../infra/headers";
 import { colorHeader } from "../../infra/colors";
 
-// ----------------------------------------------------
-// |                   FUNCTIONS                      |
-// ----------------------------------------------------
+import { insertMultiResult, getAllMultiResults, deleteMultiResult } from "../../helpers/prisma-results-multi-value";
+import { parseRunResultsStatsMulti, removeIndexFromTable, parseMultiResults } from "../../helpers/parse";
 
 export async function resultsPortalMulti(results: StrategyResultMulti, newResult: boolean) {
-  // Clear console
   if (!newResult) console.clear();
 
-  // Define back and portal return params
   let back = false;
   let portalReturn: DataReturn = { error: false, data: "" };
 
-  // Define choices for historical data screen
   let choices = ["🎉 All Trading Results In Browser", "📋 Table Of All Trading Results In CLI"];
   choices.push(newResult ? "💾 Save Trading Results" : "🔥 Delete Trading Result");
   choices.push("🏃 Run Trading Strategy");
@@ -39,22 +21,17 @@ export async function resultsPortalMulti(results: StrategyResultMulti, newResult
   choices.push("👈 Back");
 
   while (!back) {
-    // Handle portal return
     if (portalReturn.data !== "") await handlePortalReturn(portalReturn);
 
-    // Show header
     headerStrategyResults();
 
-    // Interact with user
     const choiceCLI = await interactCLI({
       type: "autocomplete",
       message: "Choose what to see:",
       choices,
     });
 
-    // Show results in browser
     if (choiceCLI.includes("🎉")) {
-      // Parse the results
       const runResultsStats = await parseRunResultsStatsMulti({
         name: results.name,
         permutationCount: results.multiResults.length,
@@ -82,13 +59,8 @@ export async function resultsPortalMulti(results: StrategyResultMulti, newResult
         assetResults: results.multiResults[0].assetAmounts,
       };
 
-      // Open chart in browser with results
       await createResultsChartsMulti(multiResults, results.multiResults, runResultsStats);
-    }
-
-    // Show statistical results in the CLI
-    else if (choiceCLI.includes("📋")) {
-      // Parse the results
+    } else if (choiceCLI.includes("📋")) {
       const runResultsStatsReturn = await parseRunResultsStatsMulti({
         name: results.name,
         permutationCount: results.multiResults.length,
@@ -115,12 +87,10 @@ export async function resultsPortalMulti(results: StrategyResultMulti, newResult
       );
 
       if (typeof runResultsStats !== "string") {
-        // Log general info
         console.log("");
         console.log(colorHeader("|              *** GENERAL ***            |"));
         removeIndexFromTable(runResultsStats.generalData);
 
-        // Log total amounts / percentages
         console.log("");
         console.log(colorHeader("|                     *** TOTAL RESULTS ***                 |"));
         removeIndexFromTable(runResultsStats.totals);
@@ -135,11 +105,7 @@ export async function resultsPortalMulti(results: StrategyResultMulti, newResult
         console.log(colorHeader("|               *** ALL PERMUTATION RESULTS ***             |"));
         removeIndexFromTable(multiResults);
       }
-    }
-
-    // Save the results
-    else if (choiceCLI.includes("💾")) {
-      // Check if results already exist
+    } else if (choiceCLI.includes("💾")) {
       let allResultsReturn = await getAllMultiResults();
       if (allResultsReturn.error) return allResultsReturn;
       let allResults = allResultsReturn.data;
@@ -159,38 +125,23 @@ export async function resultsPortalMulti(results: StrategyResultMulti, newResult
         if (saveResultsChoice === "No") {
           return { error: false, data: "Cancelled saving results" };
         } else {
-          // Delete already existing entry
           const deleteResults = await deleteMultiResult(results.name);
           if (deleteResults.error) return deleteResults;
         }
       }
 
-      // Save the results to the dB
       const saveResultsRes = await insertMultiResult(results);
       if (saveResultsRes.error) return saveResultsRes;
       return { error: false, data: `Successfully saved results for ${results.name}` };
-    }
-
-    // Delete the results
-    else if (choiceCLI.includes("🔥")) {
-      // Delete result
+    } else if (choiceCLI.includes("🔥")) {
       return await deleteMultiResult(results.name);
-    }
-
-    // Run Trading Strategy
-    else if (choiceCLI.includes("🏃")) {
+    } else if (choiceCLI.includes("🏃")) {
       portalReturn = await runStrategyPortal(true);
       back = true;
-    }
-
-    // Run Trading Strategy (more options)
-    else if (choiceCLI.includes("🔮")) {
+    } else if (choiceCLI.includes("🔮")) {
       portalReturn = await runStrategyPortal(false);
       back = true;
-    }
-
-    // Back
-    else if (choiceCLI.includes("👈")) back = true;
+    } else if (choiceCLI.includes("👈")) back = true;
   }
   return portalReturn;
 }

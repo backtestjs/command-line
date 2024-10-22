@@ -1,35 +1,15 @@
-// ----------------------------------------------------
-// |                   STRATEGY PORTAL                |
-// ----------------------------------------------------
-
-// ----------------------------------------------------
-// |                     GLOBALS                      |
-// ----------------------------------------------------
-
-// Define helper imports
 import { interactCLI, handlePortalReturn } from "../../helpers/portals";
-
-// Define infra imports
 import { headerStrategies } from "../../infra/headers";
 import { DataReturn } from "../../infra/interfaces";
-
-// Define portal imports
 import { runStrategyPortal } from "./run-strategy";
 import { scanStrategiesPortal } from "./scan";
 
-// ----------------------------------------------------
-// |                   FUNCTIONS                      |
-// ----------------------------------------------------
-
 export async function mainStrategyPortal() {
-  // Clear console
   console.clear();
 
-  // Define back and portal return params
   let back = false;
   let portalReturn: DataReturn = { error: false, data: "" };
 
-  // Define choices for strategy screen
   const choices = [
     "🏃 Run Trading Strategy",
     "🔮 Run Trading Strategy (more options)",
@@ -38,13 +18,10 @@ export async function mainStrategyPortal() {
   ];
 
   while (!back) {
-    // Show header
     headerStrategies();
 
-    // Handle portal return
     if (portalReturn.data !== "") await handlePortalReturn(portalReturn);
 
-    // Interact with user
     const choiceCLI = await interactCLI({
       type: "autocomplete",
       message: "Choose what to do:",
@@ -53,7 +30,6 @@ export async function mainStrategyPortal() {
 
     let shouldClear = true;
 
-    // Choose which route to go
     if (choiceCLI.includes("🏃")) {
       portalReturn = await runStrategyPortal(true);
       if (portalReturn.error) shouldClear = false;
@@ -67,7 +43,6 @@ export async function mainStrategyPortal() {
       portalReturn.data = "";
     }
 
-    // Clear console
     if (shouldClear) console.clear();
   }
   return portalReturn;

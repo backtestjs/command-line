@@ -1,89 +1,50 @@
-// ---------------------------------------------------- 
-// |            VIEW HISTORICAL DATA PORTAL           |
-// ---------------------------------------------------- 
-
-// ---------------------------------------------------- 
-// |                     GLOBALS                      |
-// ---------------------------------------------------- 
-
-// Define helper imports
-import { getAllCandleMetaData } from '../../helpers/prisma-historical-data'
-import { interactCLI, handlePortalReturn } from '../../helpers/portals'
-import { parseHistoricalData } from '../../helpers/parse'
-
-// Define infra imports
-import { DataReturn, MetaCandle } from '../../infra/interfaces'
-import { headerViewHistoricalData } from '../../infra/headers'
-import { colorChoice } from '../../infra/colors'
-
-// Define portal imports
-import { editPortal } from './edit'
-
-// ---------------------------------------------------- 
-// |                   FUNCTIONS                      |
-// ---------------------------------------------------- 
+import { interactCLI, handlePortalReturn } from "../../helpers/portals";
+import { DataReturn } from "../../infra/interfaces";
+import { headerViewHistoricalData } from "../../infra/headers";
+import { colorChoice } from "../../infra/colors";
+import { editPortal } from "./edit";
+import { findHistoricalDataNames } from "@backtestjs/core";
 
 export async function viewHistoricalDataPortal() {
-    // Clear console
-    console.clear()
+  console.clear();
 
-    // Define back and portal return params
-    let back = false
-    let portalReturn: DataReturn = { error: false, data: '' }
+  let back = false;
+  let portalReturn: DataReturn = { error: false, data: "" };
 
-    while (!back) {
-        // Get historical metadata
-        const metaData = await getAllCandleMetaData()
-        if (metaData.error) return metaData
+  while (!back) {
+    const historicalNames = await findHistoricalDataNames();
+    if (!historicalNames?.length) return { error: true, data: "There are no saved candles" };
 
-        if (typeof metaData.data !== 'string') {
-            // Update if list is empty
-            if (metaData.data.length === 0) return { error: true, data: 'There are no saved candles' }
+    let choices: string[] = historicalNames;
+    choices.push(colorChoice("👈 Back"));
 
-            // Define choices
-            let choices: string[] = []
-            choices = await parseHistoricalData(metaData.data.map((data: MetaCandle) => data.name))
+    headerViewHistoricalData();
 
-            // Add back choice to choices
-            choices.push(colorChoice('👈 Back'))
+    if (portalReturn.data !== "") await handlePortalReturn(portalReturn);
 
-            // Update if list is empty
-            if (choices.length === 0) return { error: true, data: 'There are no saved historical data entries' }
+    const choiceCLI = await interactCLI({
+      type: "autocomplete",
+      message: "Choose a symbol / interval to interact with:",
+      choices,
+    });
 
-            // Show header 
-            headerViewHistoricalData()
-
-            // Handle portal return
-            if (portalReturn.data !== '') await handlePortalReturn(portalReturn)
-
-            // Interact with user
-            const choiceCLI = await interactCLI({
-                type: 'autocomplete',
-                message: 'Choose a symbol / iterval to interact with:',
-                choices
-            })
-
-            // Choose which flow to go
-            if (choiceCLI.includes('👈')) {
-                back = true
-                portalReturn.error = false
-                portalReturn.data = ''
-            }
-            else {
-                // Find user choice and open edit page with it
-                let userChoice = ''
-                for (let i = 0; i < choices.length; i++) {
-                    if (choices[i] === choiceCLI) {
-                        userChoice = metaData.data[i].name
-                        break
-                    }
-                }
-                portalReturn = await editPortal(userChoice)
-            }
-
-            // Clear console
-            console.clear()
+    if (choiceCLI.includes("👈")) {
+      back = true;
+      portalReturn.error = false;
+      portalReturn.data = "";
+    } else {
+      let userChoice = "";
+      for (let i = 0; i < choices.length; i++) {
+        if (choices[i] === choiceCLI) {
+          userChoice = historicalNames[i];
+          break;
         }
+      }
+      portalReturn = await editPortal(userChoice);
     }
-    return portalReturn
+
+    console.clear();
+  }
+
+  return portalReturn;
 }
