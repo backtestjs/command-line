@@ -9,6 +9,7 @@ export async function handlePortalReturn(portalReturn: DataReturn) {
   if (portalReturn.data !== '') {
     const m = portalReturn.error ? colorError(portalReturn.data) : colorSuccess(portalReturn.data)
     console.log(m)
+    console.log()
   }
 }
 
