@@ -1,6 +1,6 @@
 ![GitHub](https://img.shields.io/github/license/backtestjs/command-line)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/backtestjs/command-line)
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fbacktestjs%2Fcore&count_bg=%23AE21A7&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=views&edge_flat=false)](https://hits.seeyoufarm.com)
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fbacktestjs%framework&count_bg=%23AE21A7&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=views&edge_flat=false)](https://hits.seeyoufarm.com)
 
 # Backtest JS: Command-line Interface (CLI)
 
@@ -238,7 +238,7 @@ await sell({ price: 2100 })
 Below is an example of a simple 3 over 45 SMA strategy. You buy once the 3 crosses the 45 and sell otherwise. In this example, we don’t use the power of params.
 
 ```typescript
-import { BTH } from '@backtestjs/core'
+import { BTH } from '@backtestjs/framework'
 import { indicatorSMA } from '../indicators/moving-averages'
 
 export async function runStrategy(bth: BTH) {
@@ -270,7 +270,7 @@ export async function runStrategy(bth: BTH) {
 Below is an example of a simple SMA strategy like above but it’s not hard-coded to the 3 over 45. When you run the strategy through the CLI, you will be asked to provide a low and high SMA. You can even provide multiple lows and multiple highs, and all the variations will be tested in one run.
 
 ```typescript
-import { BTH } from '@backtestjs/core'
+import { BTH } from '@backtestjs/framework'
 import { indicatorSMA } from '../indicators/moving-averages'
 
 export const properties = {

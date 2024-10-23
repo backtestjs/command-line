@@ -5,7 +5,7 @@ import { removeIndexFromTable, round } from '../../helpers/parse'
 import { DataReturn, GetStrategyResult, LooseObject } from '../../infra/interfaces'
 import { headerStrategyResults } from '../../infra/headers'
 import { colorHeader, colorBack } from '../../infra/colors'
-import { saveResults, deleteResults, findResultNames, parseRunResultsStats } from '@backtestjs/core'
+import { saveResults, deleteResults, findResultNames, parseRunResultsStats } from '@backtestjs/framework'
 
 export async function resultsPortal(results: GetStrategyResult, newResult: boolean) {
   if (!newResult) console.clear()

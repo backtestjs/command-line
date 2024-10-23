@@ -5,7 +5,7 @@ import { dateToString } from '../../helpers/parse'
 import { headerEditHistoricalData } from '../../infra/headers'
 import { DataReturn } from '../../infra/interfaces'
 import { colorHeader, colorError, colorBack } from '../../infra/colors'
-import { getCandles, deleteHistoricalData, findHistoricalData } from '@backtestjs/core'
+import { getCandles, deleteHistoricalData, findHistoricalData } from '@backtestjs/framework'
 
 export async function editPortal(name: string) {
   console.clear()

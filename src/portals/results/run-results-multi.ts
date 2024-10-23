@@ -5,7 +5,7 @@ import { removeIndexFromTable, parseMultiResults } from '../../helpers/parse'
 import { DataReturn, StrategyResultMulti } from '../../infra/interfaces'
 import { headerStrategyResults } from '../../infra/headers'
 import { colorHeader, colorBack } from '../../infra/colors'
-import { saveMultiResults, deleteMultiResults, findMultiResultNames, parseRunResultsStats } from '@backtestjs/core'
+import { saveMultiResults, deleteMultiResults, findMultiResultNames, parseRunResultsStats } from '@backtestjs/framework'
 
 export async function resultsPortalMulti(results: StrategyResultMulti, newResult: boolean) {
   if (!newResult) console.clear()

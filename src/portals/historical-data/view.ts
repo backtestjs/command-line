@@ -3,7 +3,7 @@ import { DataReturn } from '../../infra/interfaces'
 import { headerViewHistoricalData } from '../../infra/headers'
 import { colorBack } from '../../infra/colors'
 import { editPortal } from './edit'
-import { findHistoricalDataNames } from '@backtestjs/core'
+import { findHistoricalDataNames } from '@backtestjs/framework'
 
 export async function viewHistoricalDataPortal() {
   console.clear()

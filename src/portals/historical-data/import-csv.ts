@@ -1,4 +1,4 @@
-import { getIntervals } from '@backtestjs/core'
+import { getIntervals } from '@backtestjs/framework'
 import { interactCLI } from '../../helpers/portals'
 import { importCSV } from '../../helpers/csv'
 import { headerImportCSV } from '../../infra/headers'

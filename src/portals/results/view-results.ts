@@ -4,7 +4,7 @@ import { headerResults } from '../../infra/headers'
 import { colorBack } from '../../infra/colors'
 import { resultsPortalMulti } from './run-results-multi'
 import { resultsPortal } from './run-results'
-import { findResultNames, findMultiResultNames, getResult, getMultiResult } from '@backtestjs/core'
+import { findResultNames, findMultiResultNames, getResult, getMultiResult } from '@backtestjs/framework'
 
 export async function viewResultsPortal() {
   console.clear()

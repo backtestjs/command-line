@@ -26,7 +26,7 @@
     "backtestjs": "dist/main.js"
   },
   "prisma": {
-    "schema": "./node_modules/@backtestjs/core/prisma/schema.prisma"
+    "schema": "./node_modules/@backtestjs/framework/prisma/schema.prisma"
   },
   "files": [
     "dist",

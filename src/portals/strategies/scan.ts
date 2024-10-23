@@ -1,6 +1,6 @@
 import { interactCLI } from '../../helpers/portals'
 import { headerScanStrategy } from '../../infra/headers'
-import { scanStrategies } from '@backtestjs/core'
+import { scanStrategies } from '@backtestjs/framework'
 import { colorError, colorBack, colorHeader, colorSuccess } from '../../infra/colors'
 
 export async function scanStrategiesPortal() {
