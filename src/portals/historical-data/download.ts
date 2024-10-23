@@ -27,7 +27,18 @@ export async function downloadHistoricalDataPortal() {
 
       if (!symbol) {
         console.log(colorError('Symbol is required'))
-        continue
+
+        const continueToDownload = await interactCLI({
+          type: 'autocomplete',
+          message: 'Back to menu?',
+          choices: ['Yes', 'No']
+        })
+
+        if (continueToDownload === 'Yes') {
+          return { error: false, data: 'Ok, download aborted' }
+        } else {
+          continue
+        }
       }
 
       try {
