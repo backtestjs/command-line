@@ -15,8 +15,8 @@
   "scripts": {
     "start": "node -r ts-node/register --env-file=.env src/main.ts",
     "dev": "node -r ts-node/register --env-file=.env src/main.ts",
-    "build": "tsc || true",
-    "makejs": "tsc || true",
+    "build": "tsc",
+    "prejs": "npm run build",
     "js": "node dist/main.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublishOnly": "npm run build",
@@ -29,15 +29,14 @@
     "schema": "./node_modules/@backtestjs/framework/prisma/schema.prisma"
   },
   "files": [
-    "dist",
-    "prisma/schema.prisma"
+    "dist"
   ],
   "pkg": {
     "assets": [
       "node_modules/**/*"
     ]
   },
-  "author": "Andrew Baronick",
+  "author": "",
   "license": "Apache-2.0",
   "dependencies": {
     "chalk": "^4.1.0",

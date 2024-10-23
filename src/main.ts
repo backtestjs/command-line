@@ -46,7 +46,11 @@ async function main() {
   console.log()
 }
 
-main().catch((error) => {
-  console.log(error)
-  process.exit(1)
-})
+main()
+  .catch((error) => {
+    console.log(error)
+    process.exit(1)
+  })
+  .finally(() => {
+    process.exit(0)
+  })
