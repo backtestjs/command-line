@@ -5,7 +5,7 @@ import { removeIndexFromTable, round } from '../../helpers/parse'
 import { DataReturn, GetStrategyResult, LooseObject } from '../../infra/interfaces'
 import { headerStrategyResults } from '../../infra/headers'
 import { colorHeader, colorBack } from '../../infra/colors'
-import { saveResults, deleteResults, findResultNames, parseRunResultsStats } from '@backtestjs/framework'
+import { saveResult, deleteResult, findResultNames, parseRunResultsStats } from '@backtestjs/framework'
 
 export async function resultsPortal(results: GetStrategyResult, newResult: boolean) {
   if (!newResult) console.clear()
@@ -111,11 +111,11 @@ export async function resultsPortal(results: GetStrategyResult, newResult: boole
       }
 
       console.clear()
-      await saveResults(results.name, results, override)
+      await saveResult(results.name, results, override)
       return { error: false, data: `Successfully saved trading results for ${results.name}` }
     } else if (choiceCLI.includes('🔥')) {
       console.clear()
-      await deleteResults(results.name)
+      await deleteResult(results.name)
       return { error: false, data: `Successfully deleted trading results for ${results.name}` }
     } else if (choiceCLI.includes('🏃')) {
       portalReturn = await runStrategyPortal(true)
