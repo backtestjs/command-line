@@ -25,7 +25,7 @@ export async function runStrategyPortal(runFast: boolean) {
 
   let runParams: RunStrategy = {
     strategyName: '',
-    historicalMetaData: [],
+    historicalData: [],
     startingAmount: 0,
     startTime: 0,
     endTime: 0,
@@ -68,18 +68,18 @@ export async function runStrategyPortal(runFast: boolean) {
       for (let j = 0; j < historicalNames.length; j++) {
         if (choiceHistoricalData[i] === historicalNames[j]) {
           //@ts-ignore
-          runParams.historicalMetaData.push(historicalNames[j])
+          runParams.historicalData.push(historicalNames[j])
           break
         }
       }
     }
 
-    const isMultiSymbol = runParams.historicalMetaData.length > 1
-    const historicalMetaData = await findHistoricalData(runParams.historicalMetaData[0])
+    const isMultiSymbol = runParams.historicalData.length > 1
+    const historicalData = await findHistoricalData(runParams.historicalData[0])
     const metaDataStrategy = await findStrategy(runParams.strategyName)
 
-    if (!historicalMetaData) {
-      return { error: true, data: `There are no historical data for ${runParams.historicalMetaData[0]}` }
+    if (!historicalData) {
+      return { error: true, data: `There are no historical data for ${runParams.historicalData[0]}` }
     }
 
     let paramsCache: LooseObject = {}
@@ -124,14 +124,14 @@ export async function runStrategyPortal(runFast: boolean) {
           const startTimeInput = await interactCLI({
             type: 'date',
             message: 'Start Date:',
-            dateDefault: historicalMetaData.startTime
+            dateDefault: historicalData.startTime
           })
           runParams.startTime = new Date(startTimeInput).getTime()
 
-          if (runParams.startTime < historicalMetaData.startTime)
-            console.log(colorError(`Date must be on or after ${dateToString(historicalMetaData.startTime)}`))
-          else if (runParams.startTime > historicalMetaData.endTime)
-            console.log(colorError(`Date must be on or before ${dateToString(historicalMetaData.endTime)}`))
+          if (runParams.startTime < historicalData.startTime)
+            console.log(colorError(`Date must be on or after ${dateToString(historicalData.startTime)}`))
+          else if (runParams.startTime > historicalData.endTime)
+            console.log(colorError(`Date must be on or before ${dateToString(historicalData.endTime)}`))
           else valid = true
         }
         valid = false
@@ -140,12 +140,12 @@ export async function runStrategyPortal(runFast: boolean) {
           const endTimeInput = await interactCLI({
             type: 'date',
             message: 'End Date:',
-            dateDefault: historicalMetaData.endTime
+            dateDefault: historicalData.endTime
           })
           runParams.endTime = new Date(endTimeInput).getTime()
 
-          if (runParams.endTime > historicalMetaData.endTime)
-            console.log(colorError(`Date must be on or before ${dateToString(historicalMetaData.endTime)}`))
+          if (runParams.endTime > historicalData.endTime)
+            console.log(colorError(`Date must be on or before ${dateToString(historicalData.endTime)}`))
           else if (runParams.endTime <= runParams.startTime)
             console.log(
               colorError(`Date must be after your declared start time of ${dateToString(runParams.startTime)}`)
@@ -153,13 +153,13 @@ export async function runStrategyPortal(runFast: boolean) {
           else valid = true
         }
       } else {
-        runParams.startTime = historicalMetaData.startTime
-        runParams.endTime = historicalMetaData.endTime
+        runParams.startTime = historicalData.startTime
+        runParams.endTime = historicalData.endTime
       }
 
       runParams.startingAmount = +(await interactCLI({
         type: 'input',
-        message: `Starting ${isMultiSymbol ? '' : historicalMetaData.quote} amount:`
+        message: `Starting ${isMultiSymbol ? '' : historicalData.quote} amount:`
       }))
 
       const choiceFee = await interactCLI({
@@ -181,8 +181,8 @@ export async function runStrategyPortal(runFast: boolean) {
       }
     } else {
       runParams.startingAmount = 1000
-      runParams.startTime = historicalMetaData.startTime
-      runParams.endTime = historicalMetaData.endTime
+      runParams.startTime = historicalData.startTime
+      runParams.endTime = historicalData.endTime
     }
 
     console.clear()
