@@ -19,18 +19,19 @@ If you’re wondering why there are two similar repositories (this one and the o
 - Added the ability to include a **note** on purchase and sale (to understand why a purchase or sale was made, the reason is reported in the “all orders” section of the HTML file);
 - Added structure `properties` inside strategy file `.ts`. This greatly helps in adding or proliferating strategies; just rescan and you’re done;
 - Ability to use `Node v18` or _higher_ (for this, we removed tulind and added technicalindicators, although both are old and tulind is undoubtedly a great choice. If you need it, you can still add it back in the fork).
+- Decoupling of [BacktestJS Framework](https://github.com/backtestjs/framework) functionality from CLI commands exposed through this project.
 
 What might come or be requested (f.e.):
 
-- Ability to call it globally from the shell command line (as the original already does);
-- Use of external folders for strategies, especially useful if executed globally or used as a simple dependency;
-- Publication of documentation (for now, refer to the original, link below).
+- Ability to call it globally from the shell command line;
+- Specify an external folders for strategies, especially useful if executed globally (see above point);
+- A bit more structured documentation, including more specific and sophisticated examples.
 
 Assumptions for the future:
 
 - The product will remain accessible and usable for free;
+- External collaborations or maintainers are always welcome.
 - Possible funding options will be considered if needed to keep the product updated, but for now, it’s not necessary or useful to think about it;
-- External collaborations or maintainers are welcome.
 
 ## Key Features 🌟
 
@@ -51,20 +52,35 @@ Assumptions for the future:
 Follow these instructions to setup the environment:
 
 ```bash
-  git clone git@github.com:backtestjs/backtestjs.git
-  cd backtestjs
-  npm i
+  git clone git@github.com:backtestjs/command-line.git backtestjs-cli
+  cd backtestjs-cli
+  npm install
 ```
 
-### Launch BacktestJS
+### Initial Setup
+
+When you run the project for the first time, you need to set up the database. Follow these steps:
+
+1. Validate your Prisma schemas: `npx prisma validate`
+2. Generate the Prisma client: `npx prisma generate`
+3. Create the database: `npx prisma db push`
+
+These commands ensure that your project is properly configured and ready to use.
+
+**_Note_**: If you are not familiar with **Prisma** and the commands above, you can use `npm run align-db` to align the schema with the database.
+
+```bash
+npm run align-db
+```
+
+### Run this project
 
 Start strategic backtesting with a single command:
 
 ```bash
-  npm start
+  npm run dev # main.ts
+  npm run start # dist/main.js
 ```
-
-<br/>
 
 ## Documentation
 
