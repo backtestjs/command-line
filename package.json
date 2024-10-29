@@ -1,6 +1,6 @@
 {
   "name": "@backtest/command-line",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "This project is a CLI build around Backtest, a library for trading developers",
   "main": "dist/main.js",
   "keywords": [
