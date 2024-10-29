@@ -1,7 +1,7 @@
 {
   "name": "@backtest/command-line",
   "version": "1.1.0",
-  "description": "This project is a CLI build around BacktestJS, a library for trading developers",
+  "description": "This project is a CLI build around Backtest, a library for trading developers",
   "main": "dist/main.js",
   "keywords": [
     "backtest",
@@ -23,10 +23,10 @@
     "postinstall": "npm run build"
   },
   "bin": {
-    "backtestjs": "dist/main.js"
+    "backtest": "dist/main.js"
   },
   "prisma": {
-    "schema": "./node_modules/@backtestjs/framework/prisma/schema.prisma"
+    "schema": "./node_modules/@backtest/framework/prisma/schema.prisma"
   },
   "files": [
     "dist"
@@ -39,6 +39,7 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
+    "@backtest/framework": "^1.1.2",
     "chalk": "^4.1.0",
     "cli-progress": "^3.12.0",
     "express": "^4.18.2",

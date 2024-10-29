@@ -16,7 +16,7 @@ import {
   RunMetaData,
   StrategyMeta,
   LooseObject
-} from '@backtestjs/framework'
+} from '@backtest/framework'
 
 export {
   RunStrategy,

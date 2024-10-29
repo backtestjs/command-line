@@ -1,4 +1,4 @@
-import { BTH } from '@backtestjs/framework'
+import { BTH } from '@backtest/framework'
 import { indicatorSMA } from '../indicators/moving-averages'
 
 export const properties = {

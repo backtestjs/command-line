@@ -4,7 +4,7 @@
 
 # Backtest JS: Command-line Interface (CLI)
 
-Enhance your trading strategies with BacktestJS, the leading CLI tool crafted for trading developers. Leverage the power of TypeScript (or JavaScript) to backtest your strategies with unmatched precision, efficiency, and flexibility.
+Enhance your trading strategies with Backtest, the leading CLI tool crafted for trading developers. Leverage the power of TypeScript (or JavaScript) to backtest your strategies with unmatched precision, efficiency, and flexibility.
 
 ## This or that (!?)
 
@@ -19,7 +19,7 @@ If you’re wondering why there are two similar repositories (this one and the o
 - Added the ability to include a **note** on purchase and sale (to understand why a purchase or sale was made, the reason is reported in the “all orders” section of the HTML file);
 - Added structure `properties` inside strategy file `.ts`. This greatly helps in adding or proliferating strategies; just rescan and you’re done;
 - Ability to use `Node v18` or _higher_ (for this, we removed tulind and added technicalindicators, although both are old and tulind is undoubtedly a great choice. If you need it, you can still add it back in the fork).
-- Decoupling of [BacktestJS Framework](https://github.com/backtestjs/framework) functionality from CLI commands exposed through this project.
+- Decoupling of [Backtest Framework](https://github.com/backtestjs/framework) functionality from CLI commands exposed through this project.
 
 What might come or be requested (f.e.):
 
@@ -41,7 +41,7 @@ Assumptions for the future:
 
 - **Integrated Storage**: Efficiently store your candle data, strategies, and results in the internal SQLite storage.
 
-- **Documentation**: Maximize BacktestJS’s capabilities with thorough guides and resources.
+- **Documentation**: Maximize Backtest’s capabilities with thorough guides and resources.
 
 <br/>
 
@@ -52,8 +52,8 @@ Assumptions for the future:
 Follow these instructions to setup the environment:
 
 ```bash
-  git clone git@github.com:backtestjs/command-line.git backtestjs-cli
-  cd backtestjs-cli
+  git clone git@github.com:backtestjs/command-line.git backtest-cli
+  cd backtest-cli
   npm install
 ```
 
@@ -84,7 +84,7 @@ Start strategic backtesting with a single command:
 
 ## Documentation
 
-Explore the BacktestJS universe with our [Full Documentation](http://backtestjs.com). Discover tutorials, video guides, and extensive examples.
+Explore the Backtest universe with our [Full Documentation](http://backtestjs.com). Discover tutorials, video guides, and extensive examples.
 
 <br/>
 
@@ -102,7 +102,7 @@ Use one of the existing files or the examples in this guide as a reference. Each
 
 Whenever you create a new strategy, modify the `properties` structure of an existing one, or delete an existing strategy, you need to run the `🌀 Scan Trading Strategies` CLI command.
 
-There’s no need to stop or restart the backtestjs process if it’s running, or to exit the program. The program will reload the contents of your file with each launch, as long as it’s synchronized.
+There’s no need to stop or restart the backtest process if it’s running, or to exit the program. The program will reload the contents of your file with each launch, as long as it’s synchronized.
 
 Using well-defined or dynamic parameters (instead of constants within your strategy) will allow you to run multiple tests simultaneously.
 
@@ -254,7 +254,7 @@ await sell({ price: 2100 })
 Below is an example of a simple 3 over 45 SMA strategy. You buy once the 3 crosses the 45 and sell otherwise. In this example, we don’t use the power of params.
 
 ```typescript
-import { BTH } from '@backtestjs/framework'
+import { BTH } from '@backtest/framework'
 import { indicatorSMA } from '../indicators/moving-averages'
 
 export async function runStrategy(bth: BTH) {
@@ -286,7 +286,7 @@ export async function runStrategy(bth: BTH) {
 Below is an example of a simple SMA strategy like above but it’s not hard-coded to the 3 over 45. When you run the strategy through the CLI, you will be asked to provide a low and high SMA. You can even provide multiple lows and multiple highs, and all the variations will be tested in one run.
 
 ```typescript
-import { BTH } from '@backtestjs/framework'
+import { BTH } from '@backtest/framework'
 import { indicatorSMA } from '../indicators/moving-averages'
 
 export const properties = {
@@ -374,7 +374,7 @@ See if that killer strategy works across the board on many symbols and timeframe
 
 Although there is an option to download data from **binance** for `crypto` assets there is no automatic download available for traditional symbols such as `apple` or `tesla` stock as well as forex symbols such as `usdyen`.
 
-This candle data can be downloaded from third party sites such as `yahoo finance` and can then be easily imported to the BacktestJS database to use with any strategy.
+This candle data can be downloaded from third party sites such as `yahoo finance` and can then be easily imported to the Backtest database to use with any strategy.
 
 ### How to prepare CSV file
 

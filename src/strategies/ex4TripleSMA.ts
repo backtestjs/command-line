@@ -1,7 +1,7 @@
 // Must Define Params: lowSMA, midSMA, highSMA
 
 // Define imports
-import { BTH } from '@backtestjs/framework'
+import { BTH } from '@backtest/framework'
 import { indicatorSMA } from '../indicators/moving-averages'
 
 // Define globals

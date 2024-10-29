@@ -1,4 +1,4 @@
-import { LooseObject } from '@backtestjs/framework'
+import { LooseObject } from '@backtest/framework'
 
 const { Console } = require('console')
 const { Transform } = require('stream')

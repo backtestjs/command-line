@@ -1,6 +1,6 @@
 import { ImportCSV } from '../infra/interfaces'
 import { interactCLI } from './portals'
-import { importFileCSV, exportFileCSV } from '@backtestjs/framework'
+import { importFileCSV, exportFileCSV } from '@backtest/framework'
 
 // import { colorError, colorSuccess } from "../infra/colors";
 // console.log(colorSuccess("✅ Found Close Time"));

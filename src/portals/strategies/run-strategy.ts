@@ -14,7 +14,7 @@ import {
   RunStrategy,
   StrategyResultMulti,
   GetStrategyResult
-} from '@backtestjs/framework'
+} from '@backtest/framework'
 
 export async function runStrategyPortal(runFast: boolean) {
   console.clear()

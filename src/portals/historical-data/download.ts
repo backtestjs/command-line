@@ -2,7 +2,7 @@ import { interactCLI } from '../../helpers/portals'
 import { headerDownloadHistoricalData } from '../../infra/headers'
 import { colorSuccess, colorError } from '../../infra/colors'
 import { dateToString } from '../../helpers/parse'
-import { downloadHistoricalData, getCandleStartDate, getIntervals, findHistoricalData } from '@backtestjs/framework'
+import { downloadHistoricalData, getCandleStartDate, getIntervals, findHistoricalData } from '@backtest/framework'
 
 export async function downloadHistoricalDataPortal() {
   console.clear()

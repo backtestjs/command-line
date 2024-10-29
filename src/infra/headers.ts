@@ -7,7 +7,7 @@ function createHeader(title: string) {
 }
 
 export function headerMain() {
-  createHeader('BACKTESTJS')
+  createHeader('BACKTEST')
 }
 
 export function headerHistoricalData() {
