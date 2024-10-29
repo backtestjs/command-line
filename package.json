@@ -1,7 +1,7 @@
 {
-  "name": "@backtestjs/command-line",
+  "name": "@backtest/command-line",
   "version": "1.1.0",
-  "description": "Free and easy way to write backtest trading strategies in TS / JS with built in candle data retrieval",
+  "description": "This project is a CLI build around BacktestJS, a library for trading developers",
   "main": "dist/main.js",
   "keywords": [
     "backtest",
