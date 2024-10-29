@@ -3,6 +3,7 @@
 /archived
 /tests
 /dist
+/esm
 /csv
 
 results-unsorted-multi.json
@@ -20,3 +21,5 @@ candles.json
 
 /**/strategies/test*.ts
 .env
+.npm
+.npmrc
