@@ -7,33 +7,6 @@
 
 Enhance your trading strategies with Backtest, the leading CLI tool crafted for trading developers. Leverage the power of TypeScript (or JavaScript) to backtest your strategies with unmatched precision, efficiency, and flexibility.
 
-## This or that (!?)
-
-**_TL;DR_** If you are unaware of the original project, you probably don’t need to read further unless you’re curious.
-
-If you’re wondering why there are two similar repositories (this one and the one you can find [here](https://github.com/andrewbaronick/BacktestJS)), the answer is simple: Andrew’s is the original platform, and it’s well-made, but it hasn’t been updated for a while. While waiting for the author to resume work on it, I decided to create an updated and maintained version. The original license allows this (at least it seems clear to me), and we don’t intend to change the license in the future. The basic idea is to keep this product updated and add some features over time. So far, we’ve added what we needed, which includes:
-
-- Agile loading of strategies (added the command `🌀 Scan Trading Strategies`);
-- Removed explicit commands for adding and deleting strategies in favor of the single scan command;
-- Strategies are always **reloaded as code**, so you just need to modify the code on the fly and save the `.ts` file. Then, by restarting the strategy from the CLI, even from an already running process, the new version is used;
-- Modified the HTML template to make a few things clearer for now (like params, colors, note, ..);
-- Added the ability to include a **note** on purchase and sale (to understand why a purchase or sale was made, the reason is reported in the “all orders” section of the HTML file);
-- Added structure `properties` inside strategy file `.ts`. This greatly helps in adding or proliferating strategies; just rescan and you’re done;
-- Ability to use `Node v18` or _higher_ (for this, we removed tulind and added technicalindicators, although both are old and tulind is undoubtedly a great choice. If you need it, you can still add it back in the fork).
-- Decoupling of [Backtest Framework](https://github.com/backtestjs/framework) functionality from CLI commands exposed through this project.
-
-What might come or be requested (f.e.):
-
-- Ability to call it globally from the shell command line;
-- Specify an external folders for strategies, especially useful if executed globally (see above point);
-- A bit more structured documentation, including more specific and sophisticated examples.
-
-Assumptions for the future:
-
-- The product will remain accessible and usable for free;
-- External collaborations or maintainers are always welcome.
-- Possible funding options will be considered if needed to keep the product updated, but for now, it’s not necessary or useful to think about it;
-
 ## Key Features 🌟
 
 - **Intuitive CLI Interface**: User-friendly command-line interface for smooth operation.
@@ -43,8 +16,6 @@ Assumptions for the future:
 - **Integrated Storage**: Efficiently store your candle data, strategies, and results in the internal SQLite storage.
 
 - **Documentation**: Maximize Backtest’s capabilities with thorough guides and resources.
-
-<br/>
 
 ## Quick Start
 
@@ -385,6 +356,36 @@ The CSV file can have the following **optional** fields:
 - Each field can be written without considering case sensitivity.
 - The order of the fields in the CSV file is not important.
 - Any additional fields will not cause an error but won't be added to the database.
+
+<br/>
+<br/>
+
+## This or that (!?)
+
+**_TL;DR_** If you are unaware of the original project, you probably don’t need to read further unless you’re curious.
+
+If you’re wondering why there are two similar repositories (this one and the one you can find [here](https://github.com/andrewbaronick/BacktestJS)), the answer is simple: Andrew’s is the original platform, and it’s well-made, but it hasn’t been updated for a while. While waiting for the author to resume work on it, I decided to create an updated and maintained version. The original license allows this (at least it seems clear to me), and we don’t intend to change the license in the future. The basic idea is to keep this product updated and add some features over time. So far, we’ve added what we needed, which includes:
+
+- Agile loading of strategies (added the command `🌀 Scan Trading Strategies`);
+- Removed explicit commands for adding and deleting strategies in favor of the single scan command;
+- Strategies are always **reloaded as code**, so you just need to modify the code on the fly and save the `.ts` file. Then, by restarting the strategy from the CLI, even from an already running process, the new version is used;
+- Modified the HTML template to make a few things clearer for now (like params, colors, note, ..);
+- Added the ability to include a **note** on purchase and sale (to understand why a purchase or sale was made, the reason is reported in the “all orders” section of the HTML file);
+- Added structure `properties` inside strategy file `.ts`. This greatly helps in adding or proliferating strategies; just rescan and you’re done;
+- Ability to use `Node v18` or _higher_ (for this, we removed tulind and added technicalindicators, although both are old and tulind is undoubtedly a great choice. If you need it, you can still add it back in the fork).
+- Decoupling of [Backtest Framework](https://github.com/backtestjs/framework) functionality from CLI commands exposed through this project.
+
+What might come or be requested (f.e.):
+
+- Ability to call it globally from the shell command line;
+- Specify an external folders for strategies, especially useful if executed globally (see above point);
+- A bit more structured documentation, including more specific and sophisticated examples.
+
+Assumptions for the future:
+
+- The product will remain accessible and usable for free;
+- External collaborations or maintainers are always welcome.
+- Possible funding options will be considered if needed to keep the product updated, but for now, it’s not necessary or useful to think about it;
 
 ## Thanks to
 
