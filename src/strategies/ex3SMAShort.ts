@@ -17,8 +17,8 @@ export async function runStrategy(bth: BTH) {
   const stopLoss = bth.params.stopLoss
 
   // Get last candles based on low and high SMA
-  const lowSMACandles = await bth.getCandles('close', 0, lowSMAInput)
-  const highSMACandles = await bth.getCandles('close', 0, highSMAInput)
+  const lowSMACandles = await bth.getCandles('close', lowSMAInput, 0)
+  const highSMACandles = await bth.getCandles('close', highSMAInput, 0)
 
   // Get low and high SMA
   const lowSMA = await indicatorSMA(lowSMACandles, lowSMAInput)
