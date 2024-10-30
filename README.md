@@ -83,10 +83,6 @@ Start strategic backtesting with a single command:
   npm run start # dist/main.js
 ```
 
-## Documentation
-
-Explore the Backtest universe with our [Full Documentation](http://backtestjs.com). Discover tutorials, video guides, and extensive examples.
-
 <br/>
 
 ## Historical Candle Data
