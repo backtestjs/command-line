@@ -288,45 +288,45 @@ BacktestJS not only delivers performance insights but also visualizes your strat
 
 Explore the visual representation of your trading outcomes, from income results to buy/sell locations, offering you a clear view of your strategy’s performance.
 
-![General Info](/screenshots/results/1-general.png)
+![General Info](https://github.com/backtestjs/command-line/blob/main/screenshots/results/1-general.png?raw=true)
 
-![Total Stats](/screenshots/results/2-total-stats.png)
+![Total Stats](https://github.com/backtestjs/command-line/blob/main/screenshots/results/2-total-stats.png?raw=true)
 
-![Trade Stats](/screenshots/results/3-trade-stats.png)
+![Trade Stats](https://github.com/backtestjs/command-line/blob/main/screenshots/results/3-trade-stats.png?raw=true)
 
-![Trade Buy Sell Stats](/screenshots/results/4-trade-buy-sell-stats.png)
+![Trade Buy Sell Stats](https://github.com/backtestjs/command-line/blob/main/screenshots/results/4-trade-buy-sell-stats.png?raw=true)
 
-![Asset Stats](/screenshots/results/5-asset-stats.png)
+![Asset Stats](https://github.com/backtestjs/command-line/blob/main/screenshots/results/5-asset-stats.png?raw=true)
 
-![Income Results](/screenshots/results/6-income-results.png)
+![Income Results](https://github.com/backtestjs/command-line/blob/main/screenshots/results/6-income-results.png?raw=true)
 
-![Buy Sell Locations](/screenshots/results/7-buy-sell-location.png)
+![Buy Sell Locations](https://github.com/backtestjs/command-line/blob/main/screenshots/results/7-buy-sell-location.png?raw=true)
 
-![All Orders](/screenshots/results/8-all-orders.png)
+![All Orders](https://github.com/backtestjs/command-line/blob/main/screenshots/results/8-all-orders.png?raw=true)
 
 ### Multi Value Results
 
 Examine permutation results and heatmap visualizations to refine your strategies across different values all in one run.
 
-![General Info](/screenshots/multi-results/1-general-info.png)
+![General Info](https://github.com/backtestjs/command-line/blob/main/screenshots/multi-results/1-general-info.png?raw=true)
 
-![Total Stats](/screenshots/multi-results/2-total-stats.png)
+![Total Stats](https://github.com/backtestjs/command-line/blob/main/screenshots/multi-results/2-total-stats.png?raw=true)
 
-![Asset Stats](/screenshots/multi-results/3-asset-stats.png)
+![Asset Stats](https://github.com/backtestjs/command-line/blob/main/screenshots/multi-results/3-asset-stats.png?raw=true)
 
-![Permutation Results](/screenshots/multi-results/4-permutation-results.png)
+![Permutation Results](https://github.com/backtestjs/command-line/blob/main/screenshots/multi-results/4-permutation-results.png?raw=true)
 
-![Heatmap](/screenshots/multi-results/5-heatmap.png)
+![Heatmap](https://github.com/backtestjs/command-line/blob/main/screenshots/multi-results/5-heatmap.png?raw=true)
 
 ### Multi Symbol Results
 
 See if that killer strategy works across the board on many symbols and timeframes with ease. Get all your results in one shot with blazing fast results.
 
-![General Info](/screenshots/multi-symbols/1-general-info.png)
+![General Info](https://github.com/backtestjs/command-line/blob/main/screenshots/multi-symbols/1-general-info.png?raw=true)
 
-![Total Stats](/screenshots/multi-symbols/2-total-stats.png)
+![Total Stats](https://github.com/backtestjs/command-line/blob/main/screenshots/multi-symbols/2-total-stats.png?raw=true)
 
-![Permutation Results](/screenshots/multi-symbols/3-permutation-results.png)
+![Permutation Results](https://github.com/backtestjs/command-line/blob/main/screenshots/multi-symbols/3-permutation-results.png?raw=true)
 
 ## Import Candle Data from CSV
 
