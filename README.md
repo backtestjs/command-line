@@ -83,13 +83,9 @@ Start strategic backtesting with a single command:
   npm run start # dist/main.js
 ```
 
-<br/>
-
 ## Historical Candle Data
 
 Easily download candle data from Binance or import it from a CSV file for strategy execution. Additionally, you can export your data to a CSV file via the CLI with just a few clicks. No coding or API key is required (thanks Binance!).
-
-<br/>
 
 ## Custom Strategies
 
@@ -276,8 +272,6 @@ export async function runStrategy(bth: BTH) {
 
 **_Pay attention_**: hard-coded parameters will prevent you from running multiple tests simultaneously!
 
-<br/>
-
 ### Advanced: the same strategy with parameters
 
 Below is an example of a simple SMA strategy like above but it’s not hard-coded to the 3 over 45. When you run the strategy through the CLI, you will be asked to provide a low and high SMA. You can even provide multiple lows and multiple highs, and all the variations will be tested in one run.
@@ -314,8 +308,6 @@ export async function runStrategy(bth: BTH) {
   }
 }
 ```
-
-<br/>
 
 ## Visualize Results
 
@@ -365,8 +357,6 @@ See if that killer strategy works across the board on many symbols and timeframe
 
 ![Permutation Results](/screenshots/multi-symbols/3-permutation-results.png)
 
-<br/>
-
 ## Import Candle Data from CSV
 
 Although there is an option to download data from **binance** for `crypto` assets there is no automatic download available for traditional symbols such as `apple` or `tesla` stock as well as forex symbols such as `usdyen`.
@@ -395,8 +385,6 @@ The CSV file can have the following **optional** fields:
 - Each field can be written without considering case sensitivity.
 - The order of the fields in the CSV file is not important.
 - Any additional fields will not cause an error but won't be added to the database.
-
-<br/>
 
 ## Thanks to
 
