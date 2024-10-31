@@ -193,7 +193,7 @@ Assumptions for the future:
 - External collaborations or maintainers are always welcome.
 - Possible funding options will be considered if needed to keep the product updated, but for now, it’s not necessary or useful to think about it;
 
-## Thanks to
+## Thanks to ❤️
 
 The original project is currently on hold. However, thanks to the permissive license, we aim to continue the author’s work. We express our gratitude and recognition for creating a usable product under a license that allows for external adoption and support.
 
