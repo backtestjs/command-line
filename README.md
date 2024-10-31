@@ -62,7 +62,7 @@ Easily download candle data from Binance or import it from a CSV file for strate
 
 In addition to the demonstration strategies already present, you can create your own by adding a file under `src/strategies`.
 
-Use one of the existing files or the examples in this guide as a reference. Each file should contain a `runStrategy` method, and if it uses external or dynamic parameters, it should also include a properly filled-out `properties` structure.
+Use one of the existing files or the examples present in this [link](https://github.com/backtestjs/framework) as a reference. Each file should contain a `runStrategy` method, and if it uses external or dynamic parameters, it should also include a properly filled-out `properties` structure.
 
 Whenever you create a new strategy, modify the `properties` structure of an existing one, or delete an existing strategy, you need to run the `🌀 Scan Trading Strategies` CLI command.
 
@@ -72,7 +72,7 @@ Using well-defined or dynamic parameters (instead of constants within your strat
 
 ### How to write a Custom Strategy
 
-Please, refer to [Write a Strategy](https://github.com/backtestjs/framework/blob/main/README.md) to discover how write your custom strategy.
+Please, refer to [Write a Strategy](https://github.com/backtestjs/framework) to discover how write your custom strategy.
 
 ### How to execute a Custom Strategy
 
