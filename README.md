@@ -19,9 +19,22 @@ Enhance your trading strategies with Backtest, the leading CLI tool crafted for 
 
 ## Quick Start
 
+### How to try it out
+
+Install package globally, and then excute it. That's all 👇
+
+```bash
+npm install -g @backtest/command-line
+npx backtest
+```
+
+But **WAIT**, there's more! This is perfect for checking functionality and running strategies well-defined. However, if you want to write your own strategies, probably, you'll need a local copy of the project. This way, you can debug 🐞 and test your strategies more effectively.
+
+Otherwise, if you're a skilled developer or you want to integrate Backtest into your project, consider using the [Backtest Framework](https://github.com/backtestjs/framework) directly or starting from the [Quick Start](https://github.com/backtestjs/quick-start) project.
+
 ### Setup Environment
 
-Follow these instructions to setup the environment:
+Follow these instructions to set up the environment locally:
 
 ```bash
   git clone git@github.com:backtestjs/command-line.git backtest-cli
