@@ -4,13 +4,16 @@
   "description": "This project is a CLI build around Backtest, a library for trading developers",
   "main": "dist/main.js",
   "keywords": [
+    "backtesting",
     "backtest",
     "finance",
     "trading",
-    "download historical candle data",
+    "candles",
     "indicators",
     "multi value",
-    "multi symbol"
+    "multi symbol",
+    "comamnd line",
+    "cli"
   ],
   "scripts": {
     "align-db": "npx prisma validate && npx prisma generate && npx prisma db push",
