@@ -66,219 +66,25 @@ Use one of the existing files or the examples in this guide as a reference. Each
 
 Whenever you create a new strategy, modify the `properties` structure of an existing one, or delete an existing strategy, you need to run the `🌀 Scan Trading Strategies` CLI command.
 
-There’s no need to stop or restart the backtest process if it’s running, or to exit the program. The program will reload the contents of your file with each launch, as long as it’s synchronized.
+If you run your strategy with `alwaysFreshLoad` set to true, there’s no need to stop or restart the backtest process if it’s running, or to exit the program. The program will reload the contents of your file with each launch, as long as it’s synchronized. But, pay attention, it's important to note that in this case you cannot use global variables in your strategy. As a result, you won't be able to take advantage of the benefits of using support historical
 
 Using well-defined or dynamic parameters (instead of constants within your strategy) will allow you to run multiple tests simultaneously.
 
-## Candle Data
+### How to write a Custom Strategy
 
-Each candle have the following information available:
+Please, refer to [Write a Strategy](https://github.com/backtestjs/framework/blob/main/README.md) to discover how write your custom strategy.
 
-```typescript
-export interface Candle {
-  openTime: number
-  open: number
-  high: number
-  low: number
-  close: number
-  volume: number
-  closeTime: number
-  assetVolume: number
-  numberOfTrades: number
-}
-```
+### How to execute a Custom Strategy
 
-## Buy and Sell
-
-It is possible to execute a buy or sell by following this:
-
-```typescript
-export interface BuySell {
-  price?: number // Price of which you will trade the asset
-  position?: string // Can be "short" or "long" (long is the default)
-  amount?: number | string // Amount of asset to buy can be number or string (string must include a %), f.e. 300 or "10%"
-  baseAmount?: number // Trade the base amount to use for percentage calculations (total worth for baseAmount equals to amount)
-  stopLoss?: number // Price of which a stop loss will trigger (all will be sold on the stop loss)
-  takeProfit?: number // Price of which a take profit will trigger (all will be sold on the take profit price)
-  percentFee?: number
-  percentSlippage?: number //
-  note?: string // Add a simple note to identify this trade
-}
-```
-
-**_Pay attention_**: follow these rules:
-
-- You CAN short and long at the same time but they need to be two seperate calls
-- If you try to buy or sell but you already bought or sold everything, the buy or sell will be skipped and not recorded
-- You cannot use “amount” and “baseAmount” params together
-- If in a short and a long you cannot use “amount” or “baseAmount” when selling without specifying a position.
-- You cannot use stopLoss if you long and short at the same time
-- You cannot use takeProfit if you long and short at the same time
-- Amount param can be a number or a string, if a string it must contain a percent sign “%”
-
-In particular, the buy signal:
-
-```typescript
-bth.buy()
-
-/* or */
-await bth.buy({
-  position: 'short',
-  amount: '10%', // or baseAmount
-  note: 'a simple note here',
-  stopLoss: stopLoss,
-  percentSlippage: percentSlippage,
-  percentFee: percentFee
-})
-```
-
-while the sell signal:
-
-```typescript
-bth.sell()
-
-/* or */
-
-await bth.sell({
-  amount: 250, // or baseAmount
-  note: 'a simple note here'
-})
-```
-
-## Examples: buy & sell
-
-### Beginner: The simplest buy & sell
-
-```typescript
-// Lets say you have $1000 and want to trade bitcoin
-// Put in a long order and buy all which is $1000 worth of bitcoin
-await buy()
-// Lets say you bought bitcoin and are now worth $1000
-// Put in a sell order and sell all which is $1000 worth of bitcoin
-await sell()
-```
-
-### Begginer: How to specify amount
-
-```typescript
-// Lets say you have $1000 and want to trade bitcoin
-// Put in a long order of $400 worth of bitcoin
-await buy({ amount: 400 })
-// Same thing can be achieved here
-await buy({ amount: '40%' })
-// Lets say you bought bitcoin and are now worth $1000 in bitcoin and put in a sell order of $400 worth of bitcoin
-await sell({ amount: 400 })
-// Same thing can be achieved here
-await sell({ amount: '40%' })
-```
-
-### Regular: How to specify stop loss and take profit
-
-```typescript
-// Lets say you have $1000 and want to trade bitcoin
-// Put a short order in with all which is $1000 and a stop loss at $24,000
-await buy({ position: "short", stopLoss: 24000 })
-// The application is smart enough to know that its a short and only sell if a candles high goes above $24,000
-// Lets say you bought bitcoin in a long and a short but only want to sell some of the shorted amount
-// Put in a sell order to sell 50% of the shorted amount
-await sell({ position: "short", amount "50%"})
-```
-
-### Regular: How to specify base amount
-
-```typescript
-// Lets say you have $1000 and bitcoin is currently worth $2000
-// Put a long order in of .25 bitcoin which is $500 worth
-await buy({ baseAmount: 0.25 })
-// This can also be achieved by doing
-await buy({ amount: 500 })
-// You cannot use amount with baseAmount in the same buy / sell call
-// Lets say you bought bitcoin and are worth $1000 and bitcoin is worth $2000
-// Put a short order in of .25 bitcoin which is $500 worth
-await sell({ baseAmount: 0.25 })
-// This can also be achieved by doing
-await sell({ amount: 500 })
-```
-
-### Advanced: How to place an order at a specific price
-
-```typescript
-// Lets say you have $1000 and bitcoins close was $2100 but you had a trigger to buy at $2000
-// Put a long order in of $1000 worth but bitcoin at a price of $2000
-await buy({ price: 2000 })
-// Lets say you bought and bitcoin is worth $2200 but you had a trigger to sell at $2100
-// Put a sell order in where bitcoin is worth $2100
-await sell({ price: 2100 })
-```
-
-## Examples: strategy
-
-### Beginner: The simplest strategy
-
-Below is an example of a simple 3 over 45 SMA strategy. You buy once the 3 crosses the 45 and sell otherwise. In this example, we don’t use the power of params.
-
-```typescript
-import { BTH } from '@backtest/framework'
-import { indicatorSMA } from '../indicators/moving-averages'
-
-export async function runStrategy(bth: BTH) {
-  const lowSMACandles = await bth.getCandles('close', 3, 0)
-  const highSMACandles = await bth.getCandles('close', 45, 0)
-
-  // Calculate low and high SMA
-  const lowSMA = await indicatorSMA(lowSMACandles, 3)
-  const highSMA = await indicatorSMA(highSMACandles, 45)
-
-  // Buy if lowSMA crosses over the highSMA
-  if (lowSMA > highSMA) {
-    await bth.buy()
-  }
-
-  // Sell if lowSMA crosses under the highSMA
-  else {
-    await bth.sell()
-  }
-}
-```
-
-**_Pay attention_**: hard-coded parameters will prevent you from running multiple tests simultaneously!
-
-### Advanced: the same strategy with parameters
-
-Below is an example of a simple SMA strategy like above but it’s not hard-coded to the 3 over 45. When you run the strategy through the CLI, you will be asked to provide a low and high SMA. You can even provide multiple lows and multiple highs, and all the variations will be tested in one run.
-
-```typescript
-import { BTH } from '@backtest/framework'
-import { indicatorSMA } from '../indicators/moving-averages'
-
-export const properties = {
-  params: ['lowSMA', 'highSMA'],
-  dynamicParams: false
-}
-
-export async function runStrategy(bth: BTH) {
-  const lowSMAInput = bth.params.lowSMA
-  const highSMAInput = bth.params.highSMA
-
-  // Get last candles
-  const lowSMACandles = await bth.getCandles('close', lowSMAInput, 0)
-  const highSMACandles = await bth.getCandles('close', highSMAInput, 0)
-
-  // Calculate low and high SMA
-  const lowSMA = await indicatorSMA(lowSMACandles, lowSMAInput)
-  const highSMA = await indicatorSMA(highSMACandles, highSMAInput)
-
-  // Buy if lowSMA crosses over the highSMA
-  if (lowSMA > highSMA) {
-    await bth.buy()
-  }
-
-  // Sell if lowSMA crosses under the highSMA
-  else {
-    await bth.sell()
-  }
-}
-```
+1. Create a new file under `src/strategies`.
+2. Write your strategy (see above for more details).
+3. Export a `runStrategy` method.
+4. If your strategy uses external or dynamic parameters, export a `properties` structure.
+5. Run the `🌀 Scan Trading Strategies` CLI command.
+6. Run the `🏃 Run Trading Strategy` CLI command.
+7. Select your strategy from the list.
+8. Follow the prompts to enter the required parameters.
+9. View and enjoy the results.
 
 ## Visualize Results
 
