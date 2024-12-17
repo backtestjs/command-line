@@ -42,7 +42,7 @@ Follow these instructions to set up the environment locally:
   npm install
 ```
 
-### File .env
+### File .env
 
 The `.env` file is used to store environment variables. This file is not committed to the repository, so you can use it to store sensitive information.
 
