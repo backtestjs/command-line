@@ -19,7 +19,7 @@
     "align-db": "npx prisma validate && npx prisma generate && npx prisma db push",
     "build": "tsc",
     "prejs": "npm run build",
-    "start": "cd dist && node main.js",
+    "start": "cd dist && node --env-file=../.env main.js",
     "dev": "node -r ts-node/register --env-file=.env src/main.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublishOnly": "npm run build",

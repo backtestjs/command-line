@@ -42,6 +42,17 @@ Follow these instructions to set up the environment locally:
   npm install
 ```
 
+### File .env
+
+The `.env` file is used to store environment variables. This file is not committed to the repository, so you can use it to store sensitive information.
+
+The `DATABASE_URL` variable **must be** inserted with the path to the target file. By default, SQLite is used, so it's not necessary to have an external database. For example, an absolute path like `DATABASE_URL=file:/Users/backtesjs/quick-start/db/backtest.db` is valid.
+
+```env
+DATABASE_URL=file:/Users/backtesjs/quick-start/db/backtest.db
+FRAMEWORK_LOG_LEVEL=ERROR # trace, debug, info, error (default)
+```
+
 ### Initial Setup
 
 When you run the project for the first time, you need to set up the database. Follow these steps:
